@@ -12,7 +12,7 @@ Thanks for your interest in contributing to Chat UI! This guide will help you ge
 2. **Local Setup**
    ```bash
    # Clone the repository
-   git clone https://github.com/yourusername/chat-ui.git
+   git clone https://github.com/TimVanOnckelen/chat-ui.git
    cd chat-ui
 
    # Install dependencies
