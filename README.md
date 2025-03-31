@@ -1,6 +1,7 @@
 # Chat UI Component Library
-
 A modern, themeable React component library for building AI chat interfaces. Built with TypeScript and React, this library provides a comprehensive set of components for creating chat applications with support for multiple themes.
+
+> ⚠️ **Development Status**: This project is under active development and currently in an unstable state. APIs and features may change without notice.
 
 ## Features
 
