@@ -4,7 +4,7 @@ import { Meta } from '@storybook/blocks';
 
 # Chat UI Component Library
 
-A minimalist React component library focused on AI chat interfaces. Built with TypeScript and React, this library provides themeable components for building modern chat applications.
+A modern React component library designed for AI chat interfaces. Built with TypeScript and React, this library provides a comprehensive set of themeable components for building sophisticated chat applications.
 
 ## Features
 
@@ -12,51 +12,75 @@ A minimalist React component library focused on AI chat interfaces. Built with T
 - 🔧 **Minimal Dependencies**: Built with React and TypeScript, keeping the bundle size small
 - 📱 **Responsive**: Components are designed to work across different screen sizes
 - ♿ **Accessible**: Built with accessibility in mind
+- 🧪 **Well Tested**: Comprehensive test coverage with Vitest and React Testing Library
+- 📚 **Storybook Documentation**: Interactive documentation and component playground
+
+## Available Components
+
+### Core Chat Components
+- **ChatBubble**: Message bubbles for user and AI responses with timestamp and extra content support
+- **ChatContainer**: Layout container for chat messages with auto-scrolling and message grouping
+- **ChatInput**: Text input component with file attachment and submission handling
+- **AIProcessingIndicator**: Loading indicator for AI response generation
+
+### Selection Components
+- **ChatSelector**: Switch between different chat sessions or conversations
+- **ModelSelector**: Choose between different AI models or configurations
+- **FileSelector**: File upload and attachment handling component
+- **SelectedFiles**: Display and manage selected file attachments
 
 ## Getting Started
 
 To use these components in your project:
 
 ```tsx
-import { ThemeProvider, ChatBubble } from 'chat-ui';
-
-// Optional: Create a custom theme
-const customTheme = {
-  colors: {
-    userBubbleBackground: '#2E5CD3',
-    // ... other theme overrides
-  }
-};
+import { ThemeProvider, ChatContainer, ChatInput } from 'chat-ui';
 
 function App() {
   return (
-    <ThemeProvider theme={customTheme}>
-      <ChatBubble 
-        message="Hello World!"
-        isUser={false}
-        timestamp="12:30 PM"
+    <ThemeProvider initialTheme="default">
+      <ChatContainer>
+        {/* Your chat messages */}
+      </ChatContainer>
+      <ChatInput 
+        onSubmit={handleSubmit}
+        onFileSelect={handleFileSelect}
       />
     </ThemeProvider>
   );
 }
 ```
 
-## Available Components
-
-### ChatBubble
-A versatile chat bubble component that supports:
-- User and AI messages with different styling
-- Timestamps
-- Extra content slot for AI model indicators or status information
-- Customizable appearance through theming
-
 ## Theming
 
 The library uses a theme provider that allows you to customize:
-- Colors
-- Spacing
-- Typography
-- Border radius
-- And more
+- Colors (backgrounds, text, accents)
+- Spacing and layout
+- Typography (font families, sizes, weights)
+- Border radius and shadows
+- Component-specific styles
+
+### Example Theme Customization
+
+```tsx
+const customTheme = {
+  colors: {
+    primary: '#2E5CD3',
+    background: '#FFFFFF',
+    userBubbleBackground: '#2E5CD3',
+    aiBubbleBackground: '#F0F0F0',
+    text: '#1A1A1A'
+  },
+  spacing: {
+    small: '8px',
+    medium: '16px',
+    large: '24px'
+  }
+};
+
+<ThemeProvider initialTheme={customTheme}>
+  {/* Your app content */}
+</ThemeProvider>
+```
 
 Check individual component documentation for detailed theming options and usage examples.

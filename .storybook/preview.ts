@@ -33,6 +33,7 @@ const preview: Preview = {
           { value: 'default', icon: 'circlehollow', title: 'Default Theme' },
           { value: 'apple', icon: 'circle', title: 'Apple Theme' },
           { value: 'fluent', icon: 'circle', title: 'Fluent Theme' },
+          { value: 'forest', icon: 'circle', title: 'Forest Theme' },
         ],
         showName: true,
       },

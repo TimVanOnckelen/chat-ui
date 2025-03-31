@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { FileSelector } from './FileSelector';
-import { ThemeProvider } from '../../theme/ThemeProvider';
 
 const meta = {
   title: 'Chat/FileSelector',
@@ -11,11 +10,9 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <ThemeProvider>
-        <div style={{ width: '200px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ width: '200px' }}>
+        <Story />
+      </div>
     ),
   ],
 } satisfies Meta<typeof FileSelector>;

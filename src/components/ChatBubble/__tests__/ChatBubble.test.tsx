@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ChatBubble } from '../ChatBubble';
 import { ThemeProvider } from '../../../theme/ThemeProvider';
+import { appleTheme } from '../../../theme/theme.types';
 
 const renderWithTheme = (component: React.ReactNode) => {
   return render(
@@ -52,6 +53,47 @@ describe('ChatBubble', () => {
     const bubble = container.firstChild;
     expect(bubble).toHaveStyle({
       marginRight: 'auto'
+    });
+  });
+
+  it('updates styling when theme changes', () => {
+    const { rerender, container } = renderWithTheme(
+      <ChatBubble message="Test message" isUser={true} />
+    );
+
+    const bubble = container.firstChild as HTMLElement;
+    const defaultBackground = window.getComputedStyle(bubble).backgroundColor;
+
+    rerender(
+      <ThemeProvider initialTheme="apple">
+        <ChatBubble message="Test message" isUser={true} />
+      </ThemeProvider>
+    );
+
+    expect(bubble).toHaveStyle({
+      backgroundColor: appleTheme.colors.userBubbleBackground
+    });
+    expect(window.getComputedStyle(bubble).backgroundColor).not.toBe(defaultBackground);
+  });
+
+  it('applies custom theme correctly', () => {
+    const customTheme = {
+      colors: {
+        userBubbleBackground: '#FF0000',
+        userBubbleText: '#FFFFFF'
+      }
+    };
+
+    const { container } = render(
+      <ThemeProvider initialTheme={customTheme}>
+        <ChatBubble message="Test message" isUser={true} />
+      </ThemeProvider>
+    );
+
+    const bubble = container.firstChild as HTMLElement;
+    expect(bubble).toHaveStyle({
+      backgroundColor: '#FF0000',
+      color: '#FFFFFF'
     });
   });
 });

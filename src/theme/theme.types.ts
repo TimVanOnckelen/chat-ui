@@ -66,14 +66,14 @@ export const defaultTheme: ChatTheme = {
 
 export const appleTheme: ChatTheme = {
   colors: {
-    primary: '#007AFF', // iOS blue
-    secondary: '#34C759', // iOS green
+    primary: '#34C759', // iOS green
+    secondary: '#007AFF', // iOS blue
     background: '#FFFFFF',
     text: '#000000',
-    userBubbleBackground: '#007AFF', // iOS blue
-    assistantBubbleBackground: '#E9E9EB', // iOS light gray
+    userBubbleBackground: '#34C759', // iOS green bubble
+    assistantBubbleBackground: '#007AFF', // iOS blue bubble
     userBubbleText: '#FFFFFF',
-    assistantBubbleText: '#000000'
+    assistantBubbleText: '#FFFFFF'
   },
   spacing: {
     xs: '4px',
@@ -127,5 +127,38 @@ export const fluentTheme: ChatTheme = {
       large: '16px'
     },
     fontFamily: '"Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif'
+  }
+}
+
+export const forestTheme: ChatTheme = {
+  colors: {
+    primary: '#10a37f', // Forest green primary
+    secondary: '#1a7f64', // Darker forest green
+    background: '#ffffff',
+    text: '#2d3748', // Dark slate for better readability
+    userBubbleBackground: '#10a37f', // Forest green
+    assistantBubbleBackground: '#f7f7f8', // Light gray background
+    userBubbleText: '#ffffff',
+    assistantBubbleText: '#2d3748'
+  },
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px'
+  },
+  borderRadius: {
+    sm: '6px',
+    md: '12px',
+    lg: '16px'
+  },
+  typography: {
+    fontSize: {
+      small: '13px',
+      medium: '15px',
+      large: '17px'
+    },
+    fontFamily: 'Söhne, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif'
   }
 }

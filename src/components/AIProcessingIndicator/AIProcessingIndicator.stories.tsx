@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { AIProcessingIndicator } from './AIProcessingIndicator';
-import { ThemeProvider } from '../../theme/ThemeProvider';
 
 const meta = {
   title: 'Chat/AIProcessingIndicator',
@@ -11,9 +10,7 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <ThemeProvider>
         <Story />
-      </ThemeProvider>
     ),
   ],
 } satisfies Meta<typeof AIProcessingIndicator>;

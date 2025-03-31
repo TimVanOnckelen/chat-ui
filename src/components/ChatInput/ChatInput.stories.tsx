@@ -3,7 +3,6 @@ import { ChatInput } from './ChatInput';
 import { ModelSelector } from '../ModelSelector/ModelSelector';
 import { FileSelector } from '../FileSelector/FileSelector';
 import { SelectedFiles } from '../SelectedFiles/SelectedFiles';
-import { ThemeProvider } from '../../theme/ThemeProvider';
 import { useState } from 'react';
 
 const meta = {
@@ -15,11 +14,9 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <ThemeProvider>
         <div style={{ width: '600px', margin: '0 auto' }}>
           <Story />
         </div>
-      </ThemeProvider>
     ),
   ],
 } satisfies Meta<typeof ChatInput>;

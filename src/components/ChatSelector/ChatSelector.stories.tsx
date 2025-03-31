@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChatSelector } from './ChatSelector';
-import { ThemeProvider } from '../../theme/ThemeProvider';
 
 const meta = {
   title: 'Chat/ChatSelector',
@@ -11,11 +10,9 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <ThemeProvider>
-        <div style={{ width: '200px', margin: '0 auto' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ width: '200px', margin: '0 auto' }}>
+        <Story />
+      </div>
     ),
   ],
 } satisfies Meta<typeof ChatSelector>;

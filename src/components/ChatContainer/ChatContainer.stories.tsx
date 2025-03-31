@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChatContainer } from './ChatContainer';
-import { ThemeProvider } from '../../theme/ThemeProvider';
 import { AIProcessingIndicator } from '../AIProcessingIndicator/AIProcessingIndicator';
 
 // AI Badge component for demo purposes
@@ -26,11 +25,9 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <ThemeProvider>
         <div style={{ width: '600px', margin: '0 auto' }}>
           <Story />
         </div>
-      </ThemeProvider>
     ),
   ],
 } satisfies Meta<typeof ChatContainer>;

@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChatBubble } from './ChatBubble';
-import { ThemeProvider } from '../../theme/ThemeProvider';
 
 // AI Badge component for demo purposes
 const AIBadge = () => (
@@ -37,11 +36,9 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <ThemeProvider>
-        <div style={{ width: '400px' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ width: '400px' }}>
+        <Story />
+      </div>
     ),
   ],
 } satisfies Meta<typeof ChatBubble>;

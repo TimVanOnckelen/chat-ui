@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ModelSelector } from './ModelSelector';
-import { ThemeProvider } from '../../theme/ThemeProvider';
 
 const meta = {
   title: 'Chat/ModelSelector',
@@ -11,11 +10,9 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <ThemeProvider>
-        <div style={{ width: '200px', margin: '200px auto 0' }}>
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div style={{ width: '200px', margin: '200px auto 0' }}>
+        <Story />
+      </div>
     ),
   ],
 } satisfies Meta<typeof ModelSelector>;

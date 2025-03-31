@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTheme } from '../../theme/ThemeProvider';
 
 export interface ChatBubbleProps {
@@ -23,7 +23,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
 }) => {
   const { theme } = useTheme();
 
-  const bubbleStyles: React.CSSProperties = {
+  const bubbleStyles = useMemo((): React.CSSProperties => ({
     backgroundColor: isUser ? theme.colors.userBubbleBackground : theme.colors.assistantBubbleBackground,
     color: isUser ? theme.colors.userBubbleText : theme.colors.assistantBubbleText,
     borderRadius: theme.borderRadius.lg,
@@ -36,25 +36,29 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     fontSize: theme.typography.fontSize.medium,
     wordWrap: 'break-word',
     position: 'relative',
-  };
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+    transition: 'all 0.2s ease-in-out',
+  }), [theme, isUser]);
 
-  const metaContainerStyles: React.CSSProperties = {
+  const metaContainerStyles = useMemo((): React.CSSProperties => ({
     display: 'flex',
     alignItems: 'center',
     gap: theme.spacing.sm,
     marginTop: theme.spacing.xs,
     fontSize: theme.typography.fontSize.small,
-    color: isUser ? `${theme.colors.userBubbleText}99` : `${theme.colors.assistantBubbleText}99`,
+    opacity: 0.7,
+    color: isUser ? theme.colors.userBubbleText : theme.colors.assistantBubbleText,
     justifyContent: isUser ? 'flex-end' : 'flex-start',
-  };
+    transition: 'all 0.2s ease-in-out',
+  }), [theme, isUser]);
 
   return (
-    <div className={`chat-bubble ${className}`} style={bubbleStyles}>
-      {message}
+    <div className={`chat-bubble ${className}`.trim()} style={bubbleStyles}>
+      <div style={{ whiteSpace: 'pre-wrap' }}>{message}</div>
       {(timestamp || extraContent) && (
         <div style={metaContainerStyles}>
           {extraContent}
-          {timestamp}
+          {timestamp && <span>{timestamp}</span>}
         </div>
       )}
     </div>

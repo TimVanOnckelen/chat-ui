@@ -1,9 +1,11 @@
-import React, { createContext, useContext, useState } from 'react';
-import { ChatTheme, defaultTheme, appleTheme, fluentTheme } from './theme.types';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { ChatTheme, defaultTheme, appleTheme, fluentTheme, forestTheme } from './theme.types';
+
+type ThemeType = 'default' | 'apple' | 'fluent' | 'forest' | 'custom';
 
 const ThemeContext = createContext<{
   theme: ChatTheme;
-  setThemeType: (themeType: string) => void;
+  setThemeType: (themeType: ThemeType) => void;
 }>({
   theme: defaultTheme,
   setThemeType: () => {},
@@ -21,16 +23,23 @@ const useTheme = () => {
 };
 
 interface ThemeProviderProps {
-  initialTheme?: string;
+  initialTheme?: ThemeType;
   children: React.ReactNode;
 }
 
-const getThemeByType = (themeType: string): ChatTheme => {
+const getThemeByType = (themeType: ThemeType, customTheme?: Partial<ChatTheme>): ChatTheme => {
   switch (themeType) {
     case 'apple':
       return appleTheme;
     case 'fluent':
       return fluentTheme;
+    case 'forest':
+      return forestTheme;
+    case 'custom':
+      return {
+        ...defaultTheme,
+        ...customTheme
+      };
     default:
       return defaultTheme;
   }
@@ -42,8 +51,8 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({
 }) => {
   const [currentTheme, setCurrentTheme] = useState(getThemeByType(initialTheme));
 
-  const setThemeType = (themeType: string) => {
-    setCurrentTheme(getThemeByType(themeType));
+  const setThemeType = (themeType: ThemeType) => {
+      setCurrentTheme(getThemeByType(themeType));
   };
 
   return (
