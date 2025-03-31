@@ -31,9 +31,10 @@ const preview: Preview = {
         icon: 'circlehollow',
         items: [
           { value: 'default', icon: 'circlehollow', title: 'Default Theme' },
-          { value: 'apple', icon: 'circle', title: 'Apple Theme' },
-          { value: 'fluent', icon: 'circle', title: 'Fluent Theme' },
+          { value: 'fruit', icon: 'circle', title: 'fruit Theme' },
+          { value: 'skylight', icon: 'circle', title: 'skylight Theme' },
           { value: 'forest', icon: 'circle', title: 'Forest Theme' },
+          { value: 'twilight', icon: 'circle', title: 'Twilight Theme' },
         ],
         showName: true,
       },

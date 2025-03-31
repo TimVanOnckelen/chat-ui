@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ChatBubble } from '../ChatBubble';
 import { ThemeProvider } from '../../../theme/ThemeProvider';
-import { appleTheme } from '../../../theme/theme.types';
+import { fruitTheme } from '../../../theme/theme.types';
 
 const renderWithTheme = (component: React.ReactNode) => {
   return render(
@@ -65,13 +65,13 @@ describe('ChatBubble', () => {
     const defaultBackground = window.getComputedStyle(bubble).backgroundColor;
 
     rerender(
-      <ThemeProvider initialTheme="apple">
+      <ThemeProvider initialTheme="fruit">
         <ChatBubble message="Test message" isUser={true} />
       </ThemeProvider>
     );
 
     expect(bubble).toHaveStyle({
-      backgroundColor: appleTheme.colors.userBubbleBackground
+      backgroundColor: fruitTheme.colors.userBubbleBackground
     });
     expect(window.getComputedStyle(bubble).backgroundColor).not.toBe(defaultBackground);
   });

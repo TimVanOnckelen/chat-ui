@@ -60,11 +60,11 @@ export const defaultTheme: ChatTheme = {
       medium: '14px',
       large: '16px'
     },
-    fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+    fontFamily: 'system-ui, -fruit-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
   }
 }
 
-export const appleTheme: ChatTheme = {
+export const fruitTheme: ChatTheme = {
   colors: {
     primary: '#34C759', // iOS green
     secondary: '#007AFF', // iOS blue
@@ -93,18 +93,18 @@ export const appleTheme: ChatTheme = {
       medium: '15px',
       large: '17px'
     },
-    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif'
+    fontFamily: '-fruit-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif'
   }
 }
 
-export const fluentTheme: ChatTheme = {
+export const skylightTheme: ChatTheme = {
   colors: {
     primary: '#0078D4', // Microsoft blue
     secondary: '#2B88D8', // Light Microsoft blue
     background: '#FFFFFF',
-    text: '#323130', // Fluent UI text color
+    text: '#323130', // skylight UI text color
     userBubbleBackground: '#0078D4',
-    assistantBubbleBackground: '#F3F2F1', // Fluent UI light gray
+    assistantBubbleBackground: '#F3F2F1', // skylight UI light gray
     userBubbleText: '#FFFFFF',
     assistantBubbleText: '#323130'
   },
@@ -118,7 +118,7 @@ export const fluentTheme: ChatTheme = {
   borderRadius: {
     sm: '2px',
     md: '4px',
-    lg: '8px' // Fluent UI uses more subtle rounded corners
+    lg: '8px' // skylight UI uses more subtle rounded corners
   },
   typography: {
     fontSize: {
@@ -126,7 +126,7 @@ export const fluentTheme: ChatTheme = {
       medium: '14px',
       large: '16px'
     },
-    fontFamily: '"Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif'
+    fontFamily: '"Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -fruit-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif'
   }
 }
 
@@ -159,6 +159,39 @@ export const forestTheme: ChatTheme = {
       medium: '15px',
       large: '17px'
     },
-    fontFamily: 'Söhne, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif'
+    fontFamily: 'Söhne, ui-sans-serif, system-ui, -fruit-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", sans-serif'
   }
 }
+
+export const twilightTheme: ChatTheme = {
+  colors: {
+    primary: '#8A7FB0', // Soft purple
+    secondary: '#B3A5D3', // Light purple
+    background: '#FFFFFF',
+    text: '#2D3142', // Dark slate
+    userBubbleBackground: '#8A7FB0',
+    assistantBubbleBackground: '#F7F6F9', // Very light purple tint
+    userBubbleText: '#FFFFFF',
+    assistantBubbleText: '#2D3142'
+  },
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px'
+  },
+  borderRadius: {
+    sm: '6px',
+    md: '10px',
+    lg: '16px'
+  },
+  typography: {
+    fontSize: {
+      small: '13px',
+      medium: '15px',
+      large: '17px'
+    },
+    fontFamily: '"Söhne", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+  }
+};

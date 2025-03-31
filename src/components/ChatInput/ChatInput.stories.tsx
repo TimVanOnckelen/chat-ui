@@ -26,9 +26,9 @@ type Story = StoryObj<typeof meta>;
 
 // Sample models for ModelSelector
 const models = [
-  { id: 'gpt-4', name: 'GPT-4', description: 'Most capable model, best for complex tasks' },
+  { id: 'gpt-4', name: 'GPT-4o', description: 'Most capable model, best for complex tasks' },
   { id: 'gpt-3.5', name: 'GPT-3.5', description: 'Faster, cheaper, good for most tasks' },
-  { id: 'claude-2', name: 'Claude 2', description: 'Alternative model with different strengths' },
+  { id: 'claude-2', name: 'Claude 3.5', description: 'Alternative model with different strengths' },
 ];
 
 // Sample files for the SelectedFiles story

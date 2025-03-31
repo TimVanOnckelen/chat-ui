@@ -27,14 +27,14 @@ const defaultModels = [
     description: 'Standard chat interface theme'
   },
   { 
-    id: 'apple', 
-    name: 'Apple Theme', 
+    id: 'fruit', 
+    name: 'fruit Theme', 
     description: 'iOS-style messaging interface'
   },
   { 
-    id: 'fluent', 
-    name: 'Fluent Theme', 
-    description: 'Microsoft Fluent design system'
+    id: 'skylight', 
+    name: 'skylight Theme', 
+    description: 'Microsoft skylight design system'
   }
 ];
 
@@ -49,7 +49,7 @@ export const Default: Story = {
 export const WithoutDescriptions: Story = {
   args: {
     models: defaultModels.map(({ description, ...model }) => model),
-    selectedModel: 'apple',
+    selectedModel: 'fruit',
     onModelChange: (modelId) => console.log('Theme changed:', modelId),
   },
 };

@@ -14,14 +14,14 @@ const ThemeDemo = () => {
       description: 'Standard chat interface theme'
     },
     { 
-      id: 'apple', 
-      name: 'Apple Theme', 
+      id: 'fruit', 
+      name: 'fruit Theme', 
       description: 'iOS-style messaging interface'
     },
     { 
-      id: 'fluent', 
-      name: 'Fluent Theme', 
-      description: 'Microsoft Fluent design system'
+      id: 'skylight', 
+      name: 'skylight Theme', 
+      description: 'Microsoft skylight design system'
     }
   ];
 

@@ -1,75 +1,134 @@
 # Chat UI Component Library
-A modern, themeable React component library for building AI chat interfaces. Built with TypeScript and React, this library provides a comprehensive set of components for creating chat applications with support for multiple themes.
 
-> ⚠️ **Development Status**: This project is under active development and currently in an unstable state. APIs and features may change without notice.
+A modern React component library designed for building sophisticated AI chat interfaces. This library provides a comprehensive set of themeable components with built-in support for file handling, model selection, and AI processing states.
 
-## Features
+## Overview
 
-- 🎨 **Themeable Components**: Includes Default, Apple, and Fluent design themes
-- 💬 **Chat Components**: Chat bubbles, inputs, containers, and selectors
-- 📁 **File Handling**: File selection and preview components
-- 🔄 **Processing States**: AI processing indicators with progress feedback
-- 📱 **Responsive Design**: Components adapt to different screen sizes
-- ♿ **Accessibility**: Built with ARIA support and keyboard navigation
-- 📚 **Storybook Documentation**: Full component documentation and examples
+Try out the complete chat interface in our [Storybook](https://your-storybook-url.com) to see all components working together.
 
-## Installation
+![Chat UI Preview](preview.png)
 
+## Key Features
+
+- 🎨 **Advanced Theming System**
+  - Multiple built-in themes (Default, Apple-style, Microsoft Fluent)
+  - Fully customizable colors, spacing, typography
+  - Dark/light mode support
+  - Design token consistency
+
+- 💬 **Complete Chat Components**
+  - Auto-scrolling message container
+  - User/AI message bubbles
+  - Multi-line input with keyboard shortcuts
+  - Thread management
+  - Model selection
+  - Reasoning toggle
+
+- 📁 **File Handling**
+  - Drag and drop uploads
+  - Type validation
+  - Size limits
+  - Preview management
+  - Progress tracking
+
+- ⚡ **Real-time Feedback**
+  - AI processing indicators
+  - Progress tracking
+  - Error states
+  - Loading animations
+
+## Quick Start
+
+1. Install the package:
 ```bash
 npm install
 ```
 
-## Development
-
-Start the development server:
-
-```bash
-npm run dev
-```
-
-Run Storybook to view component documentation:
-
+2. Start Storybook to explore components:
 ```bash
 npm run storybook
 ```
 
-## Available Components
-
-### Chat Interface
-- `ChatBubble`: Message bubbles for user and AI responses
-- `ChatContainer`: Container for chat messages with auto-scroll
-- `ChatInput`: Text input with file attachment support
-- `ChatSelector`: Dropdown for switching between chat threads
-
-### File Management
-- `FileSelector`: File upload component with drag-and-drop
-- `SelectedFiles`: Display and manage selected files
-
-### UI Elements
-- `ModelSelector`: Switch between different AI models or themes
-- `AIProcessingIndicator`: Show AI processing state with progress
-
-### Theming
-- Customizable themes with support for:
-  - Colors and color schemes
-  - Typography
-  - Spacing
-  - Border radius
-  - Light/dark mode
-
-## Usage Example
-
+3. Basic usage:
 ```tsx
 import { ThemeProvider, ChatContainer, ChatInput } from './components';
 
 function App() {
+  const [messages, setMessages] = useState([]);
+
+  const handleSend = (message) => {
+    setMessages([...messages, { 
+      id: Date.now(),
+      message,
+      isUser: true 
+    }]);
+  };
+
   return (
     <ThemeProvider initialTheme="default">
       <ChatContainer messages={messages} />
-      <ChatInput onSubmit={handleSubmit} />
+      <ChatInput onSubmit={handleSend} />
     </ThemeProvider>
   );
 }
+```
+
+## Available Components
+
+### Core Chat Interface
+- `ChatContainer`: Main message container with auto-scroll
+- `ChatBubble`: Message bubbles for user and AI responses
+- `ChatInput`: Text input with file attachment support
+- `ChatSelector`: Switch between chat threads
+
+### Controls
+- `ModelSelector`: Choose between different AI models
+- `ReasoningToggle`: Toggle AI reasoning display
+- `FileSelector`: File upload with validation
+- `SelectedFiles`: Manage uploaded files
+
+### Feedback
+- `AIProcessingIndicator`: Show AI processing state with progress
+
+## Theming
+
+The library includes several built-in themes and supports custom themes:
+
+```tsx
+// Use built-in theme
+<ThemeProvider initialTheme="fruit">
+  {/* Your app */}
+</ThemeProvider>
+
+// Or create custom theme
+const customTheme = {
+  colors: {
+    primary: '#2E5CD3',
+    background: '#FFFFFF',
+    // ... other tokens
+  },
+  // ... other theme settings
+};
+
+<ThemeProvider initialTheme={customTheme}>
+  {/* Your app */}
+</ThemeProvider>
+```
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run Storybook
+npm run storybook
+
+# Run tests
+npm test
+
+# Build package
+npm run build
 ```
 
 ## Contributing

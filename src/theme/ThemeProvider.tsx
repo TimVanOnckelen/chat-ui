@@ -1,7 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ChatTheme, defaultTheme, appleTheme, fluentTheme, forestTheme } from './theme.types';
+import React, { createContext, useContext, useState } from 'react';
+import { ChatTheme, defaultTheme, fruitTheme, skylightTheme, forestTheme, twilightTheme } from './theme.types';
 
-type ThemeType = 'default' | 'apple' | 'fluent' | 'forest' | 'custom';
+type ThemeType = 'default' | 'fruit' | 'skylight' | 'forest' | 'twilight' | 'custom';
 
 const ThemeContext = createContext<{
   theme: ChatTheme;
@@ -29,12 +29,14 @@ interface ThemeProviderProps {
 
 const getThemeByType = (themeType: ThemeType, customTheme?: Partial<ChatTheme>): ChatTheme => {
   switch (themeType) {
-    case 'apple':
-      return appleTheme;
-    case 'fluent':
-      return fluentTheme;
+    case 'fruit':
+      return fruitTheme;
+    case 'skylight':
+      return skylightTheme;
     case 'forest':
       return forestTheme;
+    case 'twilight':
+      return twilightTheme;
     case 'custom':
       return {
         ...defaultTheme,

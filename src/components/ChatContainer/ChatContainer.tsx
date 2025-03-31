@@ -47,7 +47,20 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
     borderRadius: theme.borderRadius.md,
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     width: '100%',
+    minHeight: '100%',
+    position: 'relative',
   };
+
+  const emptyStateStyles: React.CSSProperties = messages.length === 0 ? {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '48px',
+    height: '48px',
+    borderRadius: '50%',
+    border: `2px dashed ${theme.colors.text}20`,
+  } : {};
 
   return (
     <div 
@@ -64,6 +77,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
           extraContent={message.extraContent}
         />
       ))}
+      {messages.length === 0 && <div style={emptyStateStyles} aria-hidden="true" />}
     </div>
   );
 };

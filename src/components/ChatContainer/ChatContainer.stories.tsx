@@ -35,6 +35,30 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const EmptyState: Story = {
+  args: {
+    messages: [],
+    maxHeight: '400px',
+  },
+};
+
+export const EmptyStateFullHeight: Story = {
+  args: {
+    messages: [],
+    maxHeight: '600px',
+  },
+  parameters: {
+    layout: 'fullscreen',
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '600px', height: '600px', margin: '0 auto', padding: '20px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
+
 const sampleMessages = [
   {
     id: '1',
@@ -73,12 +97,6 @@ const sampleMessages = [
 export const Default: Story = {
   args: {
     messages: sampleMessages,
-  },
-};
-
-export const EmptyChat: Story = {
-  args: {
-    messages: [],
   },
 };
 
