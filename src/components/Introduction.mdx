@@ -1,0 +1,62 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Chat UI/Introduction" />
+
+# Chat UI Component Library
+
+A minimalist React component library focused on AI chat interfaces. Built with TypeScript and React, this library provides themeable components for building modern chat applications.
+
+## Features
+
+- 🎨 **Fully Themeable**: Customize colors, spacing, typography, and more through a powerful theme system
+- 🔧 **Minimal Dependencies**: Built with React and TypeScript, keeping the bundle size small
+- 📱 **Responsive**: Components are designed to work across different screen sizes
+- ♿ **Accessible**: Built with accessibility in mind
+
+## Getting Started
+
+To use these components in your project:
+
+```tsx
+import { ThemeProvider, ChatBubble } from 'chat-ui';
+
+// Optional: Create a custom theme
+const customTheme = {
+  colors: {
+    userBubbleBackground: '#2E5CD3',
+    // ... other theme overrides
+  }
+};
+
+function App() {
+  return (
+    <ThemeProvider theme={customTheme}>
+      <ChatBubble 
+        message="Hello World!"
+        isUser={false}
+        timestamp="12:30 PM"
+      />
+    </ThemeProvider>
+  );
+}
+```
+
+## Available Components
+
+### ChatBubble
+A versatile chat bubble component that supports:
+- User and AI messages with different styling
+- Timestamps
+- Extra content slot for AI model indicators or status information
+- Customizable appearance through theming
+
+## Theming
+
+The library uses a theme provider that allows you to customize:
+- Colors
+- Spacing
+- Typography
+- Border radius
+- And more
+
+Check individual component documentation for detailed theming options and usage examples.
