@@ -48,7 +48,7 @@ export const Default: Story = {
 
 export const WithoutDescriptions: Story = {
   args: {
-    models: defaultModels.map(({ description, ...model }) => model),
+    models: defaultModels.map(({ ...model }) => model),
     selectedModel: 'fruit',
     onModelChange: (modelId) => console.log('Theme changed:', modelId),
   },

@@ -1,23 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { ChatContainer } from '../ChatContainer/ChatContainer';
+import { ChatContainer, ChatMessage } from '../ChatContainer/ChatContainer';
 import { ChatInput } from '../ChatInput/ChatInput';
 import { ChatSelector } from '../ChatSelector/ChatSelector';
 import { ModelSelector } from '../ModelSelector/ModelSelector';
 import { ReasoningToggle } from '../ReasoningToggle/ReasoningToggle';
 import { FileSelector } from '../FileSelector/FileSelector';
-import { SelectedFiles } from '../SelectedFiles/SelectedFiles';
+import { SelectedFile, SelectedFiles } from '../SelectedFiles/SelectedFiles';
 import { AIProcessingIndicator } from '../AIProcessingIndicator/AIProcessingIndicator';
 import { ThemeProvider } from '../../theme/ThemeProvider';
 
 // Wrapper component for the interactive story
 const ChatOverview = () => {
   // State management
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [selectedChat, setSelectedChat] = useState('1');
   const [selectedModel, setSelectedModel] = useState('gpt-4');
   const [reasoningEnabled, setReasoningEnabled] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
 

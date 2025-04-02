@@ -115,6 +115,6 @@ export const LongConversation: Story = {
 
 export const WithoutTimestamps: Story = {
   args: {
-    messages: sampleMessages.map(({ timestamp, ...msg }) => msg),
+    messages: sampleMessages.map(({ ...msg }) => msg),
   },
 };

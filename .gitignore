@@ -23,4 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+/storybook-static
+
 *storybook.log
+
+# Environment variables and secrets
+.env
+.secrets

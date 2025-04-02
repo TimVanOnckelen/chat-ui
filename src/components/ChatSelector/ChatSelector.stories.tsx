@@ -67,7 +67,7 @@ export const WithoutNewChat: Story = {
 
 export const NoUnreadCounts: Story = {
   args: {
-    chats: sampleChats.map(({ unreadCount, ...chat }) => chat),
+    chats: sampleChats.map(({ ...chat }) => chat),
     selectedChat: '3',
     onChatSelect: (chatId) => console.log('Chat selected:', chatId),
     onNewChat: () => console.log('New chat requested'),
