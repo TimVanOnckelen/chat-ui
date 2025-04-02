@@ -23,8 +23,14 @@ export type { ModelSelectorProps, Model } from './components/ModelSelector/Model
 export { ReasoningToggle } from './components/ReasoningToggle/ReasoningToggle';
 export type { ReasoningToggleProps } from './components/ReasoningToggle/ReasoningToggle';
 
+export { ReasoningBubble } from './components/ReasoningToggle/ReasoningBubble';
+export type { ReasoningBubbleProps } from './components/ReasoningToggle/ReasoningBubble';
+
 export { SelectedFiles } from './components/SelectedFiles/SelectedFiles';
 export type { SelectedFilesProps, SelectedFile } from './components/SelectedFiles/SelectedFiles';
+
+export { ContextList } from './components/ContextList/ContextList';
+export type { ContextListProps, ContextItem } from './components/ContextList/ContextList';
 
 // Theme
 export { ThemeProvider, useTheme } from './theme/ThemeProvider';

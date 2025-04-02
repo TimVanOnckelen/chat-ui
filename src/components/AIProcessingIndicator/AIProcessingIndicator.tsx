@@ -12,10 +12,12 @@ export interface AIProcessingIndicatorProps {
   progress?: number;
   /** Whether to show the progress bar */
   showProgress?: boolean;
-  /** Width of the progress bar in pixels */
-  progressWidth?: number;
+  /** Width of the progress bar. Can be a number (pixels) or string (CSS value) */
+  progressWidth?: number | string;
   /** Height of the progress bar in pixels */
   progressHeight?: number;
+
+  borderRadius?: number;
 }
 
 export const AIProcessingIndicator: React.FC<AIProcessingIndicatorProps> = ({
@@ -25,9 +27,12 @@ export const AIProcessingIndicator: React.FC<AIProcessingIndicatorProps> = ({
   progress = 0,
   showProgress = false,
   progressWidth = 60,
-  progressHeight = 4
+  progressHeight = 4,
+  borderRadius = 4,
 }) => {
   const theme = useTheme();
+  const progressPercentage = Math.min(Math.max(progress * 100, 0), 100);
+  const isComplete = progressPercentage === 100;
 
   const containerStyles: React.CSSProperties = {
     display: 'inline-flex',
@@ -36,6 +41,7 @@ export const AIProcessingIndicator: React.FC<AIProcessingIndicatorProps> = ({
     fontSize: theme.theme.typography.fontSize.small,
     color: `${theme.theme.colors.text}99`,
     fontFamily: theme.theme.typography.fontFamily,
+    width: showProgress ? '100%' : undefined,
   };
 
   const dotsContainerStyles: React.CSSProperties = {
@@ -46,16 +52,16 @@ export const AIProcessingIndicator: React.FC<AIProcessingIndicatorProps> = ({
   const dotStyles: React.CSSProperties = {
     width: `${dotSize}px`,
     height: `${dotSize}px`,
-    borderRadius: '50%',
+    borderRadius: borderRadius,
     backgroundColor: 'currentColor',
     animation: 'processingDotPulse 1.4s infinite ease-in-out',
   };
 
   const progressContainerStyles: React.CSSProperties = {
-    width: `${progressWidth}px`,
+    width: typeof progressWidth === 'number' ? `${progressWidth}px` : progressWidth,
     height: `${progressHeight}px`,
     backgroundColor: `${theme.theme.colors.text}20`,
-    borderRadius: `${progressHeight / 2}px`,
+    borderRadius: borderRadius,
     overflow: 'hidden',
     position: 'relative',
   };
@@ -65,16 +71,16 @@ export const AIProcessingIndicator: React.FC<AIProcessingIndicatorProps> = ({
     left: 0,
     top: 0,
     height: '100%',
-    width: `${Math.min(Math.max(progress * 100, 0), 100)}%`,
+    width: `${progressPercentage}%`,
     background: `linear-gradient(90deg, 
       ${theme.theme.colors.primary}80,
       ${theme.theme.colors.primary},
       ${theme.theme.colors.secondary}
     )`,
     backgroundSize: '200% 100%',
-    animation: 'progressGradient 2s ease infinite',
-    borderRadius: `${progressHeight / 2}px`,
-    transition: 'width 0.3s ease-in-out',
+    animation: isComplete ? 'none' : 'progressGradient 2s ease infinite',
+    borderRadius: isComplete ? `${borderRadius / 2}px` : `${borderRadius / 2}px 0 0 ${borderRadius / 2}px`,
+    transition: 'width 0.3s ease-in-out, border-radius 0.3s ease-in-out',
     boxShadow: `0 0 ${progressHeight * 2.5}px ${theme.theme.colors.primary}80,
                 0 0 ${progressHeight * 1.25}px ${theme.theme.colors.primary}40`,
     filter: 'brightness(1.1)',

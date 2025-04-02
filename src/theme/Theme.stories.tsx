@@ -3,9 +3,14 @@ import { useState } from 'react';
 import { ThemeProvider } from './ThemeProvider';
 import { ChatBubble } from '../components/ChatBubble/ChatBubble';
 import { ModelSelector } from '../components/ModelSelector/ModelSelector';
+import { ThemeType } from './ThemeProvider';
 
 const ThemeDemo = () => {
-  const [selectedTheme, setSelectedTheme] = useState('default');
+  const [selectedTheme, setSelectedTheme] = useState<ThemeType>('default');
+
+  const handleThemeChange = (modelId: string) => {
+    setSelectedTheme(modelId as ThemeType);
+  };
 
   const themes = [
     { 
@@ -15,13 +20,18 @@ const ThemeDemo = () => {
     },
     { 
       id: 'fruit', 
-      name: 'fruit Theme', 
+      name: 'Fruit Theme', 
       description: 'iOS-style messaging interface'
     },
     { 
       id: 'skylight', 
-      name: 'skylight Theme', 
-      description: 'Microsoft skylight design system'
+      name: 'Skylight Theme', 
+      description: 'Microsoft Fluent design system'
+    },
+    { 
+      id: 'copilot', 
+      name: 'Copilot Theme', 
+      description: 'GitHub Copilot dark theme'
     }
   ];
 
@@ -31,7 +41,7 @@ const ThemeDemo = () => {
         <ModelSelector
           models={themes}
           selectedModel={selectedTheme}
-          onModelChange={setSelectedTheme}
+          onModelChange={handleThemeChange}
         />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '400px' }}>
           <ChatBubble

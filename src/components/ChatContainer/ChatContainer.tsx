@@ -19,13 +19,15 @@ export interface ChatContainerProps {
   maxHeight?: string;
   /** Whether to auto scroll to bottom on new messages */
   autoScroll?: boolean;
+  noMessages?: React.ReactNode;
 }
 
 export const ChatContainer: React.FC<ChatContainerProps> = ({
   messages,
   className = '',
   maxHeight = '600px',
-  autoScroll = true
+  autoScroll = true,
+  noMessages = null,
 }) => {
   const { theme } = useTheme();
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -46,7 +48,6 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
     backgroundColor: theme.colors.background,
     borderRadius: theme.borderRadius.md,
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    width: '100%',
     minHeight: '100%',
     position: 'relative',
   };
@@ -68,6 +69,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
       className={`chat-container ${className}`}
       style={containerStyles}
     >
+
       {messages.map((message) => (
         <ChatBubble
           key={message.id}
@@ -77,7 +79,8 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
           extraContent={message.extraContent}
         />
       ))}
-      {messages.length === 0 && <div style={emptyStateStyles} aria-hidden="true" />}
+      {messages.length === 0 && noMessages ? <>{noMessages}</> : <div style={emptyStateStyles} aria-hidden="true" />}
+      
     </div>
   );
 };

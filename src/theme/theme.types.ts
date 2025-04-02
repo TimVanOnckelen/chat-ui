@@ -194,4 +194,37 @@ export const twilightTheme: ChatTheme = {
     },
     fontFamily: '"Söhne", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
   }
-};
+}
+
+export const copilotTheme: ChatTheme = {
+  colors: {
+    primary: '#0D1117', // GitHub dark
+    secondary: '#238636', // GitHub green
+    background: '#0D1117', // GitHub dark background
+    text: '#E6EDF3', // GitHub light text
+    userBubbleBackground: '#238636', // GitHub green for user
+    assistantBubbleBackground: '#21262D', // GitHub darker gray
+    userBubbleText: '#FFFFFF',
+    assistantBubbleText: '#E6EDF3'
+  },
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px'
+  },
+  borderRadius: {
+    sm: '4px',
+    md: '6px',
+    lg: '8px'
+  },
+  typography: {
+    fontSize: {
+      small: '12px',
+      medium: '14px',
+      large: '16px'
+    },
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif'
+  }
+}

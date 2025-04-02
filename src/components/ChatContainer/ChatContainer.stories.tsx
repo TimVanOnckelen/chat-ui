@@ -16,6 +16,37 @@ const AIBadge = () => (
   </span>
 );
 
+// Custom Empty State component for demo
+const CustomEmptyState = () => (
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '12px',
+    color: '#6B7280',
+    textAlign: 'center',
+    padding: '24px'
+  }}>
+    <svg
+      width="48"
+      height="48"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+    <div>
+      <h3 style={{ margin: '0 0 8px 0', color: '#374151', fontWeight: 600 }}>No messages yet</h3>
+      <p style={{ margin: 0, fontSize: '14px' }}>Start the conversation by sending a message!</p>
+    </div>
+  </div>
+);
+
 const meta = {
   title: 'Chat/ChatContainer',
   component: ChatContainer,
@@ -117,4 +148,12 @@ export const WithoutTimestamps: Story = {
   args: {
     messages: sampleMessages.map(({ ...msg }) => msg),
   },
+};
+
+export const WithCustomEmptyState: Story = {
+  args: {
+    messages: [],
+    maxHeight: '400px',
+    noMessages: <CustomEmptyState />
+  }
 };

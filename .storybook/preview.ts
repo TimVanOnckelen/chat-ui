@@ -35,6 +35,7 @@ const preview: Preview = {
           { value: 'skylight', icon: 'circle', title: 'skylight Theme' },
           { value: 'forest', icon: 'circle', title: 'Forest Theme' },
           { value: 'twilight', icon: 'circle', title: 'Twilight Theme' },
+          { value: 'copilot', icon: 'circle', title: 'Copilot Theme' },
         ],
         showName: true,
       },

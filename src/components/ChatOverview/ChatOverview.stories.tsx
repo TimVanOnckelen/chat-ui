@@ -8,12 +8,28 @@ import { ReasoningToggle } from '../ReasoningToggle/ReasoningToggle';
 import { FileSelector } from '../FileSelector/FileSelector';
 import { SelectedFile, SelectedFiles } from '../SelectedFiles/SelectedFiles';
 import { AIProcessingIndicator } from '../AIProcessingIndicator/AIProcessingIndicator';
-import { ThemeProvider } from '../../theme/ThemeProvider';
+import { ThemeProvider, useTheme } from '../../theme/ThemeProvider';
 
 // Wrapper component for the interactive story
-const ChatOverview = () => {
+const ChatOverviewContent = () => {
+  const { theme } = useTheme();
   // State management
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: '1',
+      message: 'Hello! Welcome to the Chat UI demo. I am an AI assistant ready to help you.',
+      isUser: false,
+      timestamp: '10:00 AM',
+      extraContent: <span style={{ 
+        backgroundColor: theme.colors.primary,
+        color: theme.colors.userBubbleText,
+        padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
+        borderRadius: theme.borderRadius.lg,
+        fontSize: theme.typography.fontSize.small,
+        fontWeight: 500
+      }}>GPT-4</span>
+    }
+  ]);
   const [selectedChat, setSelectedChat] = useState('1');
   const [selectedModel, setSelectedModel] = useState('gpt-4');
   const [reasoningEnabled, setReasoningEnabled] = useState(false);
@@ -25,21 +41,28 @@ const ChatOverview = () => {
   const chats = [
     {
       id: '1',
-      title: 'New Chat',
+      title: 'Chat UI Demo',
+      lastMessage: 'Welcome to the Chat UI demo!',
       timestamp: 'Just now'
     },
     {
       id: '2',
-      title: 'Code Review Help',
-      lastMessage: 'Could you review this React component?',
+      title: 'Code Review',
+      lastMessage: 'Let me analyze your React component...',
       timestamp: '2m ago',
       unreadCount: 2,
     },
     {
       id: '3',
       title: 'Bug Investigation',
-      lastMessage: 'The issue seems to be in the authentication flow...',
+      lastMessage: 'The issue appears to be in the authentication flow.',
       timestamp: '1h ago',
+    },
+    {
+      id: '4',
+      title: 'Feature Planning',
+      lastMessage: 'Let\'s break down the requirements...',
+      timestamp: '2h ago'
     }
   ];
 
@@ -52,7 +75,12 @@ const ChatOverview = () => {
     {
       id: 'gpt-3.5',
       name: 'GPT-3.5',
-      description: 'Faster response times, good for most tasks'
+      description: 'Faster responses, good for most tasks'
+    },
+    {
+      id: 'claude-3',
+      name: 'Claude 3',
+      description: 'Alternative model with different capabilities'
     }
   ];
 
@@ -71,21 +99,46 @@ const ChatOverview = () => {
     setProgress(0);
     const interval = setInterval(() => {
       setProgress(p => Math.min(p + 0.1, 0.9));
-    }, 500);
+    }, 300);
 
     setTimeout(() => {
       clearInterval(interval);
       setProgress(1);
       setIsProcessing(false);
+
+      let response = 'I understand you said: "' + message + '". ';
+      if (selectedFiles.length > 0) {
+        response += 'I see you\'ve attached ' + selectedFiles.length + ' file(s). ';
+      }
+      response += 'How else can I help you?';
+
       const aiResponse = {
         id: (Date.now() + 1).toString(),
-        message: 'This is a simulated AI response to demonstrate the interface.',
+        message: response,
         isUser: false,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        extraContent: reasoningEnabled ? '(Reasoning: This is a demonstration of the reasoning feature)' : undefined
+        extraContent: (
+          <div style={{ display: 'flex', gap: theme.spacing.sm, alignItems: 'center' }}>
+            <span style={{ 
+              backgroundColor: theme.colors.primary,
+              color: theme.colors.userBubbleText,
+              padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
+              borderRadius: theme.borderRadius.lg,
+              fontSize: theme.typography.fontSize.small,
+              fontWeight: 500
+            }}>{selectedModel.toUpperCase()}</span>
+            {reasoningEnabled && (
+              <span style={{ 
+                color: theme.colors.text,
+                opacity: 0.6,
+                fontSize: theme.typography.fontSize.small
+              }}>(Using reasoning mode)</span>
+            )}
+          </div>
+        )
       };
       setMessages(prev => [...prev, aiResponse]);
-    }, 3000);
+    }, 2000);
   };
 
   const handleFileSelect = (files: File[]) => {
@@ -103,99 +156,128 @@ const ChatOverview = () => {
   };
 
   return (
-    <ThemeProvider initialTheme="default">
+    <div style={{ 
+      width: '800px',
+      height: '600px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme.spacing.md,
+      padding: theme.spacing.lg,
+      backgroundColor: theme.colors.background,
+      borderRadius: theme.borderRadius.lg,
+      overflow: 'hidden',
+      boxSizing: 'border-box',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+    }}>
       <div style={{ 
-        width: '800px',
-        height: '600px',
+        display: 'flex', 
+        gap: theme.spacing.md, 
+        alignItems: 'center',
+        flexShrink: 0,
+        overflow: 'auto',
+        paddingBottom: theme.spacing.xs
+      }}>
+        <ChatSelector
+          chats={chats}
+          selectedChat={selectedChat}
+          onChatSelect={setSelectedChat}
+          onNewChat={() => {
+            const newChat = {
+              id: (chats.length + 1).toString(),
+              title: 'New Chat',
+              lastMessage: 'Starting a new conversation...',
+              timestamp: 'Just now'
+            };
+            chats.unshift(newChat);
+            setSelectedChat(newChat.id);
+            setMessages([]);
+          }}
+        />
+        <ModelSelector
+          models={models}
+          selectedModel={selectedModel}
+          onModelChange={setSelectedModel}
+        />
+        <ReasoningToggle
+          enabled={reasoningEnabled}
+          onToggle={setReasoningEnabled}
+          text="Show Reasoning"
+          icon={(
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+            </svg>
+          )}
+        />
+      </div>
+
+      <div style={{ 
+        flex: 1,
+        minHeight: 0,
+        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
-        gap: '16px',
-        padding: '20px',
-        backgroundColor: '#f8f9fa',
-        borderRadius: '8px',
-        overflow: 'hidden', // Add overflow hidden to prevent overflow
+        overflow: 'hidden',
+        backgroundColor: theme.colors.background,
+        borderRadius: theme.borderRadius.md
       }}>
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center', minWidth: 0 }}>
-          <ChatSelector
-            chats={chats}
-            selectedChat={selectedChat}
-            onChatSelect={setSelectedChat}
-            onNewChat={() => {
-              const newChat = {
-                id: (chats.length + 1).toString(),
-                title: 'New Chat',
-                timestamp: 'Just now'
-              };
-              chats.unshift(newChat);
-              setSelectedChat(newChat.id);
-            }}
-          />
-          <ModelSelector
-            models={models}
-            selectedModel={selectedModel}
-            onModelChange={setSelectedModel}
-          />
-          <ReasoningToggle
-            enabled={reasoningEnabled}
-            onToggle={setReasoningEnabled}
-          />
-        </div>
-
-        <div style={{ 
-          flex: 1, 
-          minHeight: 0,
-          minWidth: 0, // Add minWidth to prevent flex items from overflowing
-          display: 'flex', 
-          flexDirection: 'column',
-          position: 'relative', // Add position relative for proper sizing
-          width: '100%', // Ensure full width
-        }}>
-          <ChatContainer
-            messages={messages}
-            maxHeight="100%"
-          />
-        </div>
-
-        <div style={{ 
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '12px',
-          marginTop: 'auto',
-          minWidth: 0, // Add minWidth to prevent flex items from overflowing
-          width: '100%', // Ensure full width
-        }}>
-          {selectedFiles.length > 0 && (
-            <SelectedFiles
-              files={selectedFiles}
-              onRemoveFile={handleRemoveFile}
-            />
-          )}
-          <ChatInput
-            onSubmit={handleSendMessage}
-            disabled={isProcessing}
-            afterInput={(
-              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <FileSelector
-                  onFilesSelected={handleFileSelect}
-                  accept="image/*,.pdf,.doc,.docx"
-                  maxSize={5 * 1024 * 1024}
-                  disabled={isProcessing}
-                />
-                {isProcessing && (
-                  <AIProcessingIndicator
-                    showProgress
-                    progress={progress}
-                    text="AI is thinking"
-                  />
-                )}
-              </div>
-            )}
-          />
-        </div>
+        <ChatContainer
+          messages={messages}
+          maxHeight="100%"
+        />
       </div>
-    </ThemeProvider>
+
+      <div style={{ 
+        display: 'flex',
+        flexDirection: 'column',
+        gap: theme.spacing.sm,
+        flexShrink: 0
+      }}>
+        {selectedFiles.length > 0 && (
+          <SelectedFiles
+            files={selectedFiles}
+            onRemoveFile={handleRemoveFile}
+          />
+        )}
+        <ChatInput
+          onSubmit={handleSendMessage}
+          disabled={isProcessing}
+          placeholder="Type a message..."
+          afterInput={(
+            <div style={{ display: 'flex', gap: theme.spacing.sm, alignItems: 'center' }}>
+              <FileSelector
+                onFilesSelected={handleFileSelect}
+                accept="image/*,.pdf,.doc,.docx"
+                maxSize={5 * 1024 * 1024}
+                disabled={isProcessing}
+              />
+              {isProcessing && (
+                <AIProcessingIndicator
+                  showProgress
+                  progress={progress}
+                  text="AI is thinking"
+                />
+              )}
+            </div>
+          )}
+        />
+      </div>
+    </div>
   );
 };
+
+const ChatOverview = () => (
+  <ChatOverviewContent />
+);
 
 const meta = {
   title: 'Getting Started/Chat UI Overview',
@@ -205,27 +287,61 @@ const meta = {
     docs: {
       description: {
         component: `
-A complete chat interface that demonstrates the integration of all core components:
+# Chat UI Component Integration
 
-- **Chat Interface**
-  - ChatContainer: Scrollable message container with auto-scroll
-  - ChatInput: Multi-line input with file attachment support
-  - ChatBubbles: Message bubbles for both user and AI
-  
-- **Controls & State**
-  - ChatSelector: Switch between different conversations
-  - ModelSelector: Choose AI models with descriptions
-  - ReasoningToggle: Toggle AI reasoning display
-  
-- **File Handling**
-  - FileSelector: Upload files with size/type validation
-  - SelectedFiles: Preview and manage uploaded files
-  
-- **Feedback**
-  - AIProcessingIndicator: Show AI thinking state
-  - Progress tracking for responses
-  
-All components are fully themeable through the ThemeProvider.
+This story demonstrates a fully functional chat interface that combines all core components into a cohesive experience.
+
+## Component Architecture
+
+### Navigation & Control Layer
+- \`ChatSelector\`: Manages multiple conversations and allows switching between them
+  - Integrates with chat history
+  - Supports creating new conversations
+- \`ModelSelector\`: Controls AI model selection
+  - Displays model capabilities and descriptions
+  - Affects AI response behavior
+- \`ReasoningToggle\`: Toggles display of AI reasoning steps
+  - Enhances transparency of AI decision making
+
+### Message Interface
+- \`ChatContainer\`: Core message display area
+  - Auto-scrolling message container
+  - Handles both user and AI messages
+  - Supports rich content in messages
+- \`ChatBubble\`: Individual message styling
+  - Different styles for user/AI messages
+  - Supports timestamps and extra content
+- \`ChatInput\`: User interaction area
+  - Multi-line text input
+  - Integrated file attachment
+  - Disabled state during AI processing
+
+### File Handling System
+- \`FileSelector\`: File upload interface
+  - Type restrictions (images, documents)
+  - Size validation (5MB limit)
+  - Multiple file support
+- \`SelectedFiles\`: File management
+  - Visual file preview
+  - Size display
+  - Remove functionality
+
+### Processing Feedback
+- \`AIProcessingIndicator\`: Visual feedback
+  - Progress bar for AI response
+  - Custom loading messages
+  - Integrated with input disabled state
+
+## State Management
+The components share state for:
+- Active conversation
+- Selected AI model
+- Uploaded files
+- Processing status
+- Message history
+
+## Theme Integration
+All components use the \`ThemeProvider\` for consistent styling and can be themed together.
         `,
       },
     },

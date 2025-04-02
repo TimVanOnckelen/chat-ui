@@ -18,6 +18,8 @@ export interface ChatInputProps {
   autoFocus?: boolean;
   /** Whether to clear the input after submit */
   clearOnSubmit?: boolean;
+  sendContent?: React.ReactNode;
+  progressIndicator?: React.ReactNode,
 }
 
 export const ChatInput: React.FC<ChatInputProps> = ({
@@ -29,6 +31,22 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   disabled = false,
   autoFocus = false,
   clearOnSubmit = true,
+  progressIndicator,
+  sendContent = (
+    <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="22" y1="2" x2="11" y2="13" />
+            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+          </svg>
+  )
 }) => {
   const theme = useTheme();
   const [message, setMessage] = React.useState('');
@@ -42,8 +60,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     backgroundColor: theme.theme.colors.background,
     borderRadius: theme.theme.borderRadius.md,
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    width: '100%',
     maxWidth: '100%',
+    position: 'relative', // Added this to support absolute positioning of progress indicator
   };
 
   const textareaStyles: React.CSSProperties = {
@@ -154,21 +172,10 @@ export const ChatInput: React.FC<ChatInputProps> = ({
             e.currentTarget.style.transform = 'scale(1)';
           }}
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="22" y1="2" x2="11" y2="13" />
-            <polygon points="22 2 15 22 11 13 2 9 22 2" />
-          </svg>
+          {sendContent}
         </button>
       </div>
+      {progressIndicator}
     </div>
   );
 };

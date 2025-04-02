@@ -10,6 +10,11 @@ export interface ReasoningToggleProps {
   className?: string;
   /** Whether the toggle is disabled */
   disabled?: boolean;
+
+  text?: string,
+  icon?: React.ReactNode,
+  iconPosition?: 'left' | 'right',
+  iconSize?: number,
 }
 
 export const ReasoningToggle: React.FC<ReasoningToggleProps> = ({
@@ -17,6 +22,10 @@ export const ReasoningToggle: React.FC<ReasoningToggleProps> = ({
   onToggle,
   className = '',
   disabled = false,
+  icon,
+  iconPosition = 'left',
+  iconSize = 14,
+  text = 'Reasoning',
 }) => {
   const theme = useTheme();
 
@@ -34,7 +43,7 @@ export const ReasoningToggle: React.FC<ReasoningToggleProps> = ({
     transition: 'all 0.2s ease',
     fontFamily: theme.theme.typography.fontFamily,
     fontSize: theme.theme.typography.fontSize.small,
-    fontWeight: 500,
+    height: theme.theme.spacing.xl
   };
 
   const handleClick = () => {
@@ -67,21 +76,17 @@ export const ReasoningToggle: React.FC<ReasoningToggleProps> = ({
         }
       }}
     >
-      <svg
-        width="14"
-        height="14"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M12 2a10 10 0 1 0 10 10H12V2z" />
-        <path d="M12 2a10 10 0 1 1-10 10h10V2z" />
-        <circle cx="12" cy="12" r="3" />
-      </svg>
-      Reasoning
+      {icon && iconPosition === 'left' && (
+        <span style={{ marginRight: theme.theme.spacing.sm, fontSize: iconSize }}>
+          {icon}
+        </span> 
+      )}
+      {text}
+      {icon && iconPosition === 'right' && (
+        <span style={{ marginLeft: theme.theme.spacing.sm, fontSize: iconSize }}>
+          {icon}
+        </span> 
+      )}
     </button>
   );
 };

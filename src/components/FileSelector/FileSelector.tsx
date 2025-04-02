@@ -4,6 +4,7 @@ import { useTheme } from '../../theme/ThemeProvider';
 export interface FileSelectorProps {
   /** Callback when files are selected */
   onFilesSelected: (files: File[]) => void;
+  buttonText?: string;
   /** Optional list of accepted file types */
   accept?: string;
   /** Optional maximum file size in bytes */
@@ -14,6 +15,8 @@ export interface FileSelectorProps {
   className?: string;
   /** Whether the selector is disabled */
   disabled?: boolean;
+  icon?: React.ReactNode;
+  iconPosition?: 'left' | 'right';
 }
 
 export const FileSelector: React.FC<FileSelectorProps> = ({
@@ -23,6 +26,20 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
   maxFiles = 1,
   className = '',
   disabled = false,
+  buttonText = 'Attach File',
+  icon = (<><svg 
+    width="16" 
+    height="16" 
+    viewBox="0 0 16 16" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2"
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <path d="M4 8h8M8 4v8" />
+  </svg></>),
+  iconPosition = 'left',
 }) => {
   const theme = useTheme();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -39,8 +56,13 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
     color: theme.theme.colors.text,
     cursor: disabled ? 'not-allowed' : 'pointer',
     fontSize: theme.theme.typography.fontSize.small,
+    fontFamily: theme.theme.typography.fontFamily,
     opacity: disabled ? 0.6 : 1,
     transition: 'background-color 0.2s',
+    maxHeight: theme.theme.spacing.xl,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   };
 
   const handleButtonHover = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -107,19 +129,9 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
         style={buttonStyles}
         disabled={disabled}
       >
-        <svg 
-          width="16" 
-          height="16" 
-          viewBox="0 0 16 16" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="2"
-          strokeLinecap="round" 
-          strokeLinejoin="round"
-        >
-          <path d="M4 8h8M8 4v8" />
-        </svg>
-        Attach File
+        {iconPosition === 'left' && icon}
+        {buttonText && buttonText}
+        {iconPosition === 'right' && icon}
       </button>
       <input
         ref={fileInputRef}

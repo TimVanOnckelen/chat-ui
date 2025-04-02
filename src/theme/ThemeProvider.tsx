@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState } from 'react';
-import { ChatTheme, defaultTheme, fruitTheme, skylightTheme, forestTheme, twilightTheme } from './theme.types';
+import { ChatTheme, defaultTheme, fruitTheme, skylightTheme, forestTheme, twilightTheme, copilotTheme } from './theme.types';
 
-type ThemeType = 'default' | 'fruit' | 'skylight' | 'forest' | 'twilight' | 'custom';
+export type ThemeType = 'default' | 'fruit' | 'skylight' | 'forest' | 'twilight' | 'copilot' | 'custom';
 
 const ThemeContext = createContext<{
   theme: ChatTheme;
   setThemeType: (themeType: ThemeType) => void;
-}>({
+}>( {
   theme: defaultTheme,
   setThemeType: () => {},
 });
@@ -37,6 +37,8 @@ const getThemeByType = (themeType: ThemeType, customTheme?: Partial<ChatTheme>):
       return forestTheme;
     case 'twilight':
       return twilightTheme;
+    case 'copilot':
+      return copilotTheme;
     case 'custom':
       return {
         ...defaultTheme,

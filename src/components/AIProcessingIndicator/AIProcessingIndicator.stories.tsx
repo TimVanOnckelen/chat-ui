@@ -96,3 +96,23 @@ export const LargeProgressBar: Story = {
     progressHeight: 12,
   },
 };
+
+export const FullWidth: Story = {
+  args: {
+    text: 'Processing',
+    showProgress: true,
+    progress: 0.6,
+    progressWidth: '100%',
+    progressHeight: 4,
+  },
+};
+
+export const CompletedProgress: Story = {
+  args: {
+    text: 'Completed',
+    showProgress: true,
+    progress: 1.0,
+    progressWidth: 200,
+    progressHeight: 4,
+  },
+};
