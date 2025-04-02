@@ -214,4 +214,4 @@ npm run build
 
 ## License
 
-MIT
+MIT - Tim Van Onckelen
