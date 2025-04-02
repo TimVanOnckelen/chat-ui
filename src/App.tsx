@@ -25,6 +25,16 @@ const themes = [
     description: 'Microsoft Fluent design system'
   },
   { 
+    id: 'forest', 
+    name: 'Forest Theme', 
+    description: 'Nature-inspired green theme'
+  },
+  { 
+    id: 'twilight', 
+    name: 'Twilight Theme', 
+    description: 'Elegant purple theme'
+  },
+  { 
     id: 'copilot', 
     name: 'Copilot Theme', 
     description: 'GitHub Copilot dark theme'

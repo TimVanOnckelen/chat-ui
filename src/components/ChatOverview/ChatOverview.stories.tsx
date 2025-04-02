@@ -8,7 +8,7 @@ import { ReasoningToggle } from '../ReasoningToggle/ReasoningToggle';
 import { FileSelector } from '../FileSelector/FileSelector';
 import { SelectedFile, SelectedFiles } from '../SelectedFiles/SelectedFiles';
 import { AIProcessingIndicator } from '../AIProcessingIndicator/AIProcessingIndicator';
-import { ThemeProvider, useTheme } from '../../theme/ThemeProvider';
+import { useTheme } from '../../theme/ThemeProvider';
 
 // Wrapper component for the interactive story
 const ChatOverviewContent = () => {

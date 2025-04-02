@@ -5,8 +5,8 @@ export type ThemeType = 'default' | 'fruit' | 'skylight' | 'forest' | 'twilight'
 
 const ThemeContext = createContext<{
   theme: ChatTheme;
-  setThemeType: (themeType: ThemeType) => void;
-}>( {
+  setThemeType: (themeType: ThemeType, customTheme?: Partial<ChatTheme>) => void;
+}>({
   theme: defaultTheme,
   setThemeType: () => {},
 });
@@ -24,6 +24,7 @@ const useTheme = () => {
 
 interface ThemeProviderProps {
   initialTheme?: ThemeType;
+  customTheme?: Partial<ChatTheme>;
   children: React.ReactNode;
 }
 
@@ -51,12 +52,13 @@ const getThemeByType = (themeType: ThemeType, customTheme?: Partial<ChatTheme>):
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ 
   initialTheme = 'default',
+  customTheme,
   children 
 }) => {
-  const [currentTheme, setCurrentTheme] = useState(getThemeByType(initialTheme));
+  const [currentTheme, setCurrentTheme] = useState(getThemeByType(initialTheme, customTheme));
 
-  const setThemeType = (themeType: ThemeType) => {
-      setCurrentTheme(getThemeByType(themeType));
+  const setThemeType = (themeType: ThemeType, newCustomTheme?: Partial<ChatTheme>) => {
+    setCurrentTheme(getThemeByType(themeType, newCustomTheme || customTheme));
   };
 
   return (

@@ -87,14 +87,14 @@ export const WithMaxItems: Story = {
 
 export const WithoutConfidence: Story = {
   args: {
-    items: sampleContextItems.slice(0, 2).map(({ confidence, ...item }) => item),
+    items: sampleContextItems.slice(0, 2).map(({ ...item }) => item),
     icon: <LightbulbIcon />
   },
 };
 
 export const WithoutSource: Story = {
   args: {
-    items: sampleContextItems.slice(0, 2).map(({ source, ...item }) => item),
+    items: sampleContextItems.slice(0, 2).map(({  ...item }) => item),
     icon: <LightbulbIcon />
   },
 };

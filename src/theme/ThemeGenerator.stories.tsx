@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { useState } from 'react';
+import type { Meta } from '@storybook/react';
+import { useState, useMemo } from 'react';
 import { ThemeProvider } from './ThemeProvider';
 import { ChatBubble } from '../components/ChatBubble/ChatBubble';
 import { ChatInput } from '../components/ChatInput/ChatInput';
@@ -44,16 +44,18 @@ const ThemeGenerator = ({
   fontSizeMedium = '14px',
   fontSizeLarge = '16px',
 }: ThemeGeneratorProps) => {
-  const customTheme: ChatTheme = {
+  const [message, setMessage] = useState('');
+
+  const customTheme = useMemo<ChatTheme>(() => ({
     colors: {
       primary: primaryColor,
       secondary: secondaryColor,
       background: backgroundColor,
       text: textColor,
-      userBubbleBackground: userBubbleBackground,
-      assistantBubbleBackground: assistantBubbleBackground,
-      userBubbleText: userBubbleText,
-      assistantBubbleText: assistantBubbleText,
+      userBubbleBackground,
+      assistantBubbleBackground,
+      userBubbleText,
+      assistantBubbleText,
     },
     spacing: {
       xs: '4px',
@@ -73,11 +75,16 @@ const ThemeGenerator = ({
         medium: fontSizeMedium,
         large: fontSizeLarge,
       },
-      fontFamily: fontFamily,
+      fontFamily,
     },
-  };
-
-  const [message, setMessage] = useState('');
+  }), [
+    primaryColor, secondaryColor, backgroundColor, textColor,
+    userBubbleBackground, assistantBubbleBackground,
+    userBubbleText, assistantBubbleText,
+    fontFamily, borderRadiusSm, borderRadiusMd, borderRadiusLg,
+    spacingSm, spacingMd,
+    fontSizeSmall, fontSizeMedium, fontSizeLarge,
+  ]);
 
   const handleSend = (text: string) => {
     setMessage(text);
@@ -85,13 +92,13 @@ const ThemeGenerator = ({
 
   const themeCode = `const customTheme = ${JSON.stringify(customTheme, null, 2)};
 
-// Use theme in your application
-<ThemeProvider initialTheme="custom">
+// Use theme in your application:
+<ThemeProvider initialTheme="custom" customTheme={customTheme}>
   {/* Your app */}
 </ThemeProvider>`;
 
   return (
-    <ThemeProvider initialTheme="custom">
+    <ThemeProvider initialTheme="custom" customTheme={customTheme}>
       <div style={{ 
         display: 'flex', 
         flexDirection: 'column', 
@@ -186,49 +193,5 @@ const meta = {
 } satisfies Meta<typeof ThemeGenerator>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
 
-export const PurplePreset: Story = {
-  args: {
-    primaryColor: '#8A7FB0',
-    secondaryColor: '#B3A5D3',
-    backgroundColor: '#FFFFFF',
-    textColor: '#2D3142',
-    userBubbleBackground: '#8A7FB0',
-    assistantBubbleBackground: '#F7F6F9',
-    userBubbleText: '#FFFFFF',
-    assistantBubbleText: '#2D3142',
-    borderRadiusSm: '4px',
-    borderRadiusMd: '10px',
-    borderRadiusLg: '16px',
-    spacingSm: '8px',
-    spacingMd: '16px',
-    fontSizeSmall: '12px',
-    fontSizeMedium: '14px',
-    fontSizeLarge: '16px',
-    fontFamily: 'Roboto, system-ui, sans-serif',
-  }
-};
-
-export const DarkPreset: Story = {
-  args: {
-    primaryColor: '#BB86FC',
-    secondaryColor: '#03DAC6',
-    backgroundColor: '#121212',
-    textColor: '#E1E1E1',
-    userBubbleBackground: '#BB86FC',
-    assistantBubbleBackground: '#1F1F1F',
-    userBubbleText: '#121212',
-    assistantBubbleText: '#E1E1E1',
-    borderRadiusSm: '4px',
-    borderRadiusMd: '8px',
-    borderRadiusLg: '20px',
-    spacingSm: '8px',
-    spacingMd: '16px',
-    fontSizeSmall: '12px',
-    fontSizeMedium: '14px',
-    fontSizeLarge: '16px',
-    fontFamily: 'system-ui, sans-serif',
-  }
-};

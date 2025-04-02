@@ -6,8 +6,6 @@ import { SelectedFiles } from '../SelectedFiles/SelectedFiles';
 import { useState } from 'react';
 import { AIProcessingIndicator } from '../AIProcessingIndicator/AIProcessingIndicator';
 
-import { useTheme } from '../../theme/ThemeProvider';
-
 const meta = {
   title: 'Chat/ChatInput',
   component: ChatInput,
