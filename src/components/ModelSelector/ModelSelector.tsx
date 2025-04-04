@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTheme } from '../../theme/ThemeProvider';
 
 export interface Model {
@@ -30,6 +31,25 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
 }) => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      if (buttonRef.current) {
+        setButtonRect(buttonRef.current.getBoundingClientRect());
+      }
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+    };
+  }, [isOpen]);
 
   const currentModel = models.find(model => model.id === selectedModel) || models[0];
 
@@ -53,18 +73,20 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   };
 
   const dropdownStyles: React.CSSProperties = {
-    position: 'absolute',
-    bottom: '100%',
-    left: 0,
-    marginBottom: theme.theme.spacing.xs,
+    position: 'fixed',
     backgroundColor: theme.theme.colors.background,
     border: `1px solid ${theme.theme.colors.text}20`,
     borderRadius: theme.theme.borderRadius.md,
-    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
     minWidth: '200px',
     maxHeight: '300px',
     overflowY: 'auto',
-    zIndex: 1000,
+    zIndex: 9999,
+    ...(buttonRect && {
+      top: buttonRect.bottom + window.scrollY + 4,
+      left: buttonRect.left + window.scrollX,
+      width: buttonRect.width,
+    }),
   };
 
   const optionStyles: React.CSSProperties = {
@@ -89,9 +111,25 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
     setIsOpen(false);
   };
 
+  const handleClickOutside = React.useCallback((event: MouseEvent) => {
+    if (buttonRef.current && !buttonRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, handleClickOutside]);
+
   return (
     <div className={`model-selector ${className}`} style={containerStyles}>
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => !disabled && setIsOpen(!isOpen)}
         style={buttonStyles}
@@ -101,7 +139,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
         {currentModel.name}
         <span style={{ marginLeft: 'auto' }}>▼</span>
       </button>
-      {isOpen && !disabled && (
+      {isOpen && !disabled && buttonRect && createPortal(
         <div style={dropdownStyles}>
           {models.map((model) => (
             <div
@@ -128,7 +166,8 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
               </div>
             </div>
           ))}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

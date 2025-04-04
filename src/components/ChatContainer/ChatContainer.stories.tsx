@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChatContainer } from './ChatContainer';
 import { AIProcessingIndicator } from '../AIProcessingIndicator/AIProcessingIndicator';
+import { AvatarHolder } from '../AvatarHolder/AvatarHolder';
 
 // AI Badge component for demo purposes
 const AIBadge = () => (
@@ -156,4 +157,60 @@ export const WithCustomEmptyState: Story = {
     maxHeight: '400px',
     noMessages: <CustomEmptyState />
   }
+};
+
+const messagesWithAvatars = [
+  {
+    id: '1',
+    message: 'Hello! I am your AI assistant. How can I help you today?',
+    isUser: false,
+    timestamp: '10:00 AM',
+    avatar: <AvatarHolder image="https://github.com/github.png" size={40} />,
+    extraContent: <AIBadge />
+  },
+  {
+    id: '2',
+    message: 'Hi! I need help with implementing a React component.',
+    isUser: true,
+    timestamp: '10:01 AM',
+    avatar: <AvatarHolder text="Tim van Osch" size={40} backgroundColor="#6366f1" textColor="#ffffff" />
+  },
+  {
+    id: '3',
+    message: `I'd be happy to help with your React component. Could you tell me more about what you're trying to build?
+    
+When sharing your requirements, please include:
+1. The component's main purpose
+2. Any specific functionality needed
+3. Data management requirements
+4. UI/UX considerations`,
+    isUser: false,
+    timestamp: '10:02 AM',
+    avatar: <AvatarHolder image="https://github.com/github.png" size={40} />,
+    extraContent: <AIBadge />
+  },
+  {
+    id: '4',
+    message: 'I want to create a reusable form component with validation...',
+    isUser: true,
+    timestamp: '10:03 AM',
+    avatar: <AvatarHolder text="Tim van Osch" size={40} backgroundColor="#6366f1" textColor="#ffffff" />
+  },
+  {
+    id: '5',
+    message: 'Analyzing your form requirements...',
+    isUser: false,
+    avatar: <AvatarHolder image="https://github.com/github.png" size={40} />,
+    extraContent: <AIProcessingIndicator showProgress progress={0.6} />
+  }
+];
+
+export const WithAvatars: Story = {
+  args: {
+    messages: messagesWithAvatars,
+    maxHeight: '600px',
+  },
+  parameters: {
+    layout: 'padded',
+  },
 };

@@ -12,6 +12,10 @@ export interface ChatBubbleProps {
   timestamp?: string;
   /** Optional extra content to show next to the timestamp */
   extraContent?: React.ReactNode;
+  /** Optional avatar element to display */
+  avatar?: React.ReactNode;
+  /** Optional content to show after the message */
+  afterMessage?: React.ReactNode;
 }
 
 export const ChatBubble: React.FC<ChatBubbleProps> = ({
@@ -19,9 +23,19 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   isUser = false,
   className = '',
   timestamp,
-  extraContent
+  extraContent,
+  avatar,
+  afterMessage
 }) => {
   const { theme } = useTheme();
+
+  const containerStyles = useMemo((): React.CSSProperties => ({
+    display: 'flex',
+    alignItems: 'center', // Changed from flex-start to center
+    gap: theme.spacing.md,
+    flexDirection: isUser ? 'row-reverse' : 'row',
+    marginBottom: theme.spacing.sm,
+  }), [theme, isUser]);
 
   const bubbleStyles = useMemo((): React.CSSProperties => ({
     backgroundColor: isUser ? theme.colors.userBubbleBackground : theme.colors.assistantBubbleBackground,
@@ -29,9 +43,6 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.md,
     maxWidth: '80%',
-    marginLeft: isUser ? 'auto' : theme.spacing.md,
-    marginRight: isUser ? theme.spacing.md : 'auto',
-    marginBottom: theme.spacing.sm,
     fontFamily: theme.typography.fontFamily,
     fontSize: theme.typography.fontSize.medium,
     wordWrap: 'break-word',
@@ -52,15 +63,28 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     transition: 'all 0.2s ease-in-out',
   }), [theme, isUser]);
 
+  const messageStyles = useMemo((): React.CSSProperties => ({
+    whiteSpace: 'pre-wrap',
+    marginBottom: afterMessage ? theme.spacing.md : 0
+  }), [theme, afterMessage]);
+
   return (
-    <div className={`chat-bubble ${className}`.trim()} style={bubbleStyles}>
-      <div style={{ whiteSpace: 'pre-wrap' }}>{message}</div>
-      {(timestamp || extraContent) && (
-        <div style={metaContainerStyles}>
-          {extraContent}
-          {timestamp && <span>{timestamp}</span>}
+    <div className={`chat-bubble-container ${className}`.trim()} style={containerStyles}>
+      {avatar && (
+        <div className="chat-bubble-avatar" style={{ display: 'flex', alignItems: 'center' }}>
+          {avatar}
         </div>
       )}
+      <div className="chat-bubble" style={bubbleStyles}>
+        <div style={messageStyles}>{message}</div>
+        {afterMessage}
+        {(timestamp || extraContent) && (
+          <div style={metaContainerStyles}>
+            {extraContent}
+            {timestamp && <span>{timestamp}</span>}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

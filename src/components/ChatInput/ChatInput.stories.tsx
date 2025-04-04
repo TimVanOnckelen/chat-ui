@@ -1,229 +1,209 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { ChatInput } from './ChatInput';
-import { ModelSelector } from '../ModelSelector/ModelSelector';
 import { FileSelector } from '../FileSelector/FileSelector';
 import { SelectedFiles } from '../SelectedFiles/SelectedFiles';
-import { useState } from 'react';
 import { AIProcessingIndicator } from '../AIProcessingIndicator/AIProcessingIndicator';
+import { useState } from 'react';
 
 const meta = {
   title: 'Chat/ChatInput',
   component: ChatInput,
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
   },
-  tags: ['autodocs'],
   decorators: [
     (Story) => (
-        <div style={{ width: '600px', margin: '0 auto' }}>
-          <Story />
-        </div>
+      <div style={{ width: '600px', margin: '0 auto' }}>
+        <Story />
+      </div>
     ),
   ],
+  tags: ['autodocs'],
 } satisfies Meta<typeof ChatInput>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Sample models for ModelSelector
-const models = [
-  { id: 'gpt-4', name: 'GPT-4o', description: 'Most capable model, best for complex tasks' },
-  { id: 'gpt-3.5', name: 'GPT-3.5', description: 'Faster, cheaper, good for most tasks' },
-  { id: 'claude-2', name: 'Claude 3.5', description: 'Alternative model with different strengths' },
-];
-
-// Sample files for the SelectedFiles story
-const sampleFiles = [
-  {
-    id: '1',
-    name: 'documentation.pdf',
-    size: 2500000,
-    type: 'application/pdf',
-  },
-  {
-    id: '2',
-    name: 'screenshot.png',
-    size: 1200000,
-    type: 'image/png',
-  },
-];
-
 export const Default: Story = {
   args: {
-    onSubmit: (message) => console.log('Message submitted:', message),
+    onSubmit: (message: string) => console.log('Message:', message),
   },
 };
 
-export const WithModelSelector: Story = {
+export const Disabled: Story = {
   args: {
-    onSubmit: (message) => console.log('Message submitted:', message),
-    beforeInput: (
-      <ModelSelector
-        models={models}
-        selectedModel="gpt-4"
-        onModelChange={(modelId) => console.log('Model changed:', modelId)}
-      />
-    ),
+    onSubmit: (message: string) => console.log('Message:', message),
+    disabled: true,
   },
 };
 
-export const WithFileSelector: Story = {
+export const WithPlaceholder: Story = {
   args: {
-    onSubmit: (message) => console.log('Message submitted:', message),
-    afterInput: (
-      <FileSelector
-        onFilesSelected={(files) => console.log('Files selected:', files)}
-        accept=".txt,.pdf,.doc,.docx"
-        maxSize={5 * 1024 * 1024} // 5MB
-      />
-    ),
+    onSubmit: (message: string) => console.log('Message:', message),
+    placeholder: 'Ask me anything...',
   },
 };
 
-export const WithBothSelectors: Story = {
-  args: {
-    onSubmit: (message) => console.log('Message submitted:', message),
-    beforeInput: (
-      <ModelSelector
-        models={models}
-        selectedModel="gpt-4"
-        onModelChange={(modelId) => console.log('Model changed:', modelId)}
-      />
-    ),
-    afterInput: (
-      <FileSelector
-        onFilesSelected={(files) => console.log('Files selected:', files)}
-        accept=".txt,.pdf,.doc,.docx"
-        maxSize={5 * 1024 * 1024} // 5MB
-      />
-    ),
-  },
-};
-
-// Interactive story with selected files
-const WithSelectedFilesTemplate = () => {
-  const [selectedFiles, setSelectedFiles] = useState(sampleFiles);
-
-  const handleRemoveFile = (fileId: string) => {
-    setSelectedFiles(files => files.filter(f => f.id !== fileId));
-  };
-
-  const handleAddFiles = (newFiles: File[]) => {
-    const filesToAdd = newFiles.map((file, index) => ({
-      id: `new-${Date.now()}-${index}`,
+// Interactive story showing file upload integration
+const WithFileUploadComponent = () => {
+  const [selectedFiles, setSelectedFiles] = useState<Array<{ id: string; name: string; size: number; type: string }>>([]);
+  
+  const handleFileSelect = (files: File[]) => {
+    const newFiles = files.map(file => ({
+      id: Math.random().toString(),
       name: file.name,
       size: file.size,
-      type: file.type,
+      type: file.type
     }));
-    setSelectedFiles(files => [...files, ...filesToAdd]);
+    setSelectedFiles(prev => [...prev, ...newFiles]);
   };
 
   return (
     <ChatInput
-      onSubmit={(message) => console.log('Message submitted:', message)}
-      beforeInput={
-        <SelectedFiles
-          files={selectedFiles}
-          onRemoveFile={handleRemoveFile}
-        />
-      }
+      onSubmit={(message) => console.log('Message with files:', message, selectedFiles)}
       afterInput={
         <FileSelector
-          onFilesSelected={handleAddFiles}
-          accept=".txt,.pdf,.doc,.docx,image/*"
+          onFilesSelected={handleFileSelect}
+          accept="image/*,.pdf,.doc,.docx"
           maxSize={5 * 1024 * 1024}
         />
+      }
+      beforeInput={
+        selectedFiles.length > 0 && (
+          <SelectedFiles
+            files={selectedFiles}
+            onRemoveFile={(id) => setSelectedFiles(prev => prev.filter(f => f.id !== id))}
+          />
+        )
       }
     />
   );
 };
 
-export const WithSelectedFiles: Story = {
-  args: {
-    onSubmit: (message) => console.log('Message submitted:', message),
-  },
-  render: WithSelectedFilesTemplate,
+export const WithFileUpload: StoryObj<typeof ChatInput> = {
+  render: WithFileUploadComponent,
+  args: {},
 };
 
-export const Disabled: Story = {
-  args: {
-    onSubmit: (message) => console.log('Message submitted:', message),
-    disabled: true,
-    beforeInput: (
-      <ModelSelector
-        models={models}
-        selectedModel="gpt-4"
-        onModelChange={(modelId) => console.log('Model changed:', modelId)}
-        disabled
-      />
-    ),
-    afterInput: (
-      <FileSelector
-        onFilesSelected={(files) => console.log('Files selected:', files)}
-        accept=".txt,.pdf,.doc,.docx"
-        disabled
-      />
-    ),
-  },
+// Interactive story showing AI processing state
+const WithProcessingComponent = () => {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const handleSubmit = () => {
+    setIsProcessing(true);
+    setProgress(0);
+    
+    // Simulate AI processing
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 0.9) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setIsProcessing(false);
+            setProgress(0);
+          }, 500);
+          return 1;
+        }
+        return prev + 0.1;
+      });
+    }, 300);
+  };
+
+  return (
+    <ChatInput
+      onSubmit={handleSubmit}
+      disabled={isProcessing}
+      progressIndicator={
+        isProcessing && (
+          <AIProcessingIndicator
+            showProgress
+            progress={progress}
+            text="AI is thinking..."
+          />
+        )
+      }
+    />
+  );
 };
 
-export const WithAttachmentIcon: Story = {
-  args: {
-    onSubmit: (message) => console.log('Message submitted:', message),
-    afterInput: (
-      <button
-        style={{
-          background: 'none',
-          border: 'none',
-          padding: '8px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          color: 'inherit',
-          opacity: 0.7,
-        }}
-        onClick={() => console.log('Attachment clicked')}
-      >
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-        </svg>
-      </button>
-    )
-  },
+export const WithProcessingIndicator: StoryObj<typeof ChatInput> = {
+  render: WithProcessingComponent,
+  args: {},
 };
 
-export const WithProgressIndicator: Story = {
-  args: {
-    onSubmit: (message) => console.log('Message submitted:', message),
-    placeholder: "AI is processing your last message...",
-    disabled: true,
-    progressIndicator: (
-      <div style={{ 
-        position: 'absolute',
-        bottom: '-4px',
-        left: 0,
-        right: 0,
-        borderBottomLeftRadius: '20px',
-        borderBottomRightRadius: '20px',
-        overflow: 'hidden'
-      }}>
-        <AIProcessingIndicator 
-          text="" 
-          showProgress 
-          progress={0.6}
-          progressWidth="100%"
-          progressHeight={3}
+// Story combining multiple features
+const FullFeaturedComponent = () => {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [selectedFiles, setSelectedFiles] = useState<Array<{ id: string; name: string; size: number; type: string }>>([]);
+
+  const handleSubmit = (message: string) => {
+    setIsProcessing(true);
+    setProgress(0);
+    console.log('Submitting message with files:', message, selectedFiles);
+    
+    // Simulate AI processing
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        if (prev >= 0.9) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setIsProcessing(false);
+            setProgress(0);
+          }, 500);
+          return 1;
+        }
+        return prev + 0.1;
+      });
+    }, 300);
+  };
+
+  const handleFileSelect = (files: File[]) => {
+    const newFiles = files.map(file => ({
+      id: Math.random().toString(),
+      name: file.name,
+      size: file.size,
+      type: file.type
+    }));
+    setSelectedFiles(prev => [...prev, ...newFiles]);
+  };
+
+  return (
+    <ChatInput
+      onSubmit={handleSubmit}
+      disabled={isProcessing}
+      placeholder="Send a message or upload files..."
+      afterInput={
+        <FileSelector
+          onFilesSelected={handleFileSelect}
+          accept="image/*,.pdf,.doc,.docx"
+          maxSize={5 * 1024 * 1024}
+          disabled={isProcessing}
         />
-      </div>
-    )
-  },
+      }
+      beforeInput={
+        selectedFiles.length > 0 && (
+          <SelectedFiles
+            files={selectedFiles}
+            onRemoveFile={(id) => setSelectedFiles(prev => prev.filter(f => f.id !== id))}
+          />
+        )
+      }
+      progressIndicator={
+        isProcessing && (
+          <AIProcessingIndicator
+            showProgress
+            progress={progress}
+            text="AI is thinking..."
+          />
+        )
+      }
+    />
+  );
+};
+
+export const FullFeatured: StoryObj<typeof ChatInput> = {
+  render: FullFeaturedComponent,
+  args: {},
 };

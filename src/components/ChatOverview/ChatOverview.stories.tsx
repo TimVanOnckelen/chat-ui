@@ -8,6 +8,7 @@ import { ReasoningToggle } from '../ReasoningToggle/ReasoningToggle';
 import { FileSelector } from '../FileSelector/FileSelector';
 import { SelectedFile, SelectedFiles } from '../SelectedFiles/SelectedFiles';
 import { AIProcessingIndicator } from '../AIProcessingIndicator/AIProcessingIndicator';
+import { ChatSuggestions } from '../ChatSuggestions/ChatSuggestions';
 import { useTheme } from '../../theme/ThemeProvider';
 
 // Wrapper component for the interactive story
@@ -27,7 +28,8 @@ const ChatOverviewContent = () => {
         borderRadius: theme.borderRadius.lg,
         fontSize: theme.typography.fontSize.small,
         fontWeight: 500
-      }}>GPT-4</span>
+      }}>GPT-4</span>,
+  
     }
   ]);
   const [selectedChat, setSelectedChat] = useState('1');
@@ -236,6 +238,63 @@ const ChatOverviewContent = () => {
         />
       </div>
 
+      <ChatSuggestions
+            suggestions={[
+              {
+                id: '1',
+                text: 'Try another model',
+                description: 'Switch to a different AI model to compare responses',
+                icon: (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                  </svg>
+                )
+              },
+              {
+                id: '2',
+                text: 'Toggle reasoning',
+                description: 'See the AI\'s thought process',
+                icon: (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                  </svg>
+                )
+              },
+              {
+                id: '3',
+                text: 'Start new chat',
+                description: 'Begin a fresh conversation',
+                icon: (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                )
+              }
+            ]}
+            onSelect={(suggestion) => {
+              switch (suggestion.id) {
+                case '1':
+                  setSelectedModel(selectedModel === 'gpt-4' ? 'gpt-3.5' : 'gpt-4');
+                  break;
+                case '2':
+                  setReasoningEnabled(!reasoningEnabled);
+                  break;
+                case '3':
+                  const newChat = {
+                    id: (chats.length + 1).toString(),
+                    title: 'New Chat',
+                    lastMessage: 'Starting a new conversation...',
+                    timestamp: 'Just now'
+                  };
+                  chats.unshift(newChat);
+                  setSelectedChat(newChat.id);
+                  setMessages([]);
+                  break;
+              }
+            }}
+          />
+
       <div style={{ 
         display: 'flex',
         flexDirection: 'column',
@@ -278,6 +337,7 @@ const ChatOverviewContent = () => {
 const ChatOverview = () => (
   <ChatOverviewContent />
 );
+
 
 const meta = {
   title: 'Getting Started/Chat UI Overview',
@@ -331,6 +391,11 @@ This story demonstrates a fully functional chat interface that combines all core
   - Progress bar for AI response
   - Custom loading messages
   - Integrated with input disabled state
+
+### Suggestions System
+- \`ChatSuggestions\`: Provides actionable suggestions
+  - Contextual suggestions based on conversation
+  - Interactive selection to trigger actions
 
 ## State Management
 The components share state for:

@@ -8,6 +8,9 @@ export interface ChatMessage {
   isUser: boolean;
   timestamp?: string;
   extraContent?: React.ReactNode;
+  avatar?: React.ReactNode;
+  /** Optional content to show after the message bubble */
+  afterMessage?: React.ReactNode;
 }
 
 export interface ChatContainerProps {
@@ -71,13 +74,16 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
     >
 
       {messages.map((message) => (
-        <ChatBubble
-          key={message.id}
-          message={message.message}
-          isUser={message.isUser}
-          timestamp={message.timestamp}
-          extraContent={message.extraContent}
-        />
+        <React.Fragment key={message.id}>
+          <ChatBubble
+            message={message.message}
+            isUser={message.isUser}
+            timestamp={message.timestamp}
+            extraContent={message.extraContent}
+            avatar={message.avatar}
+          />
+          {message.afterMessage}
+        </React.Fragment>
       ))}
       {messages.length === 0 && noMessages ? <>{noMessages}</> : <div style={emptyStateStyles} aria-hidden="true" />}
       

@@ -19,7 +19,7 @@ export interface ChatInputProps {
   /** Whether to clear the input after submit */
   clearOnSubmit?: boolean;
   sendContent?: React.ReactNode;
-  progressIndicator?: React.ReactNode,
+  progressIndicator?: React.ReactNode;
 }
 
 export const ChatInput: React.FC<ChatInputProps> = ({
@@ -34,22 +34,23 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   progressIndicator,
   sendContent = (
     <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <line x1="22" y1="2" x2="11" y2="13" />
-            <polygon points="22 2 15 22 11 13 2 9 22 2" />
-          </svg>
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="22" y1="2" x2="11" y2="13" />
+      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+    </svg>
   )
 }) => {
   const theme = useTheme();
   const [message, setMessage] = React.useState('');
+  const [isFocused, setIsFocused] = React.useState(false);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   const containerStyles: React.CSSProperties = {
@@ -57,11 +58,15 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     flexDirection: 'column',
     gap: theme.theme.spacing.sm,
     padding: theme.theme.spacing.md,
-    backgroundColor: theme.theme.colors.background,
+    backgroundColor: isFocused 
+      ? `${theme.theme.colors.primary}05`
+      : theme.theme.colors.background,
     borderRadius: theme.theme.borderRadius.md,
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    border: `1px solid ${theme.theme.colors.text}20`,
     maxWidth: '100%',
-    position: 'relative', // Added this to support absolute positioning of progress indicator
+    position: 'relative',
+    transition: 'all 0.2s ease-in-out',
+    transform: isFocused ? 'translateY(-2px)' : 'none',
   };
 
   const textareaStyles: React.CSSProperties = {
@@ -71,7 +76,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     minHeight: '44px',
     maxHeight: '200px',
     padding: theme.theme.spacing.sm,
-    backgroundColor: `${theme.theme.colors.text}10`,
+    backgroundColor: 'transparent',
     borderRadius: theme.theme.borderRadius.sm,
     fontFamily: theme.theme.typography.fontFamily,
     fontSize: theme.theme.typography.fontSize.medium,
@@ -124,6 +129,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       if (clearOnSubmit) {
         setMessage('');
       }
+      // Remove focus from textarea after sending
+      textareaRef.current?.blur();
     }
   };
 
@@ -146,6 +153,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         placeholder={placeholder}
         disabled={disabled}
         autoFocus={autoFocus}
