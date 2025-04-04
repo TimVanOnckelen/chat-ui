@@ -1,13 +1,14 @@
 # ChatKit React
 
 [![NPM Version](https://img.shields.io/npm/v/@thexerobe/chatkit-react)](https://www.npmjs.com/package/chatkit-react)
-[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://timvanonckelen.github.io/chat-ui/)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://timvanonckelen.github.io/chatkit-react/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > ⚡ **Project Status**: This project is under active development. Stay tuned for regular updates. Some features may change or break in upcoming versions.
 
 A modern React component library for building sophisticated AI chat interfaces. Provides themeable components with built-in support for file handling, model selection, and AI processing states.s
 
+![Overview ChatKit](./assets/screenshot_1.png)
 ## Requirements
 
 - React 19 or higher
@@ -29,7 +30,7 @@ npm install chatkit-react
 
 Basic usage:
 ```tsx
-import { ThemeProvider, ChatContainer, ChatInput } from '@timvanonckelen/chat-ui';
+import { ThemeProvider, ChatContainer, ChatInput } from 'chatkit-react';
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -53,7 +54,7 @@ function App() {
 
 ## Documentation
 
-Visit our [Storybook](https://timvanonckelen.github.io/chat-ui/) for detailed documentation, component examples, and theme customization.
+Visit our [Storybook](https://timvanonckelen.github.io/chatkit-react/) for detailed documentation, component examples, and theme customization.
 
 ## Contributing
 

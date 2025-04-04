@@ -1,6 +1,6 @@
-# Contributing to Chat UI
+# Contributing to ChatKit
 
-Thanks for your interest in contributing to Chat UI! This guide will help you get started with contributing to our React component library.
+Thanks for your interest in contributing to ChatKit! This guide will help you get started with contributing to our React component library.
 
 ## Development Setup
 
@@ -12,8 +12,8 @@ Thanks for your interest in contributing to Chat UI! This guide will help you ge
 2. **Local Setup**
    ```bash
    # Clone the repository
-   git clone https://github.com/TimVanOnckelen/chat-ui.git
-   cd chat-ui
+   git clone https://github.com/TimVanOnckelen/chatkit-react.git
+   cd chatkit-react
 
    # Install dependencies
    npm install
@@ -185,4 +185,4 @@ Consider:
 
 By contributing, you agree that your contributions will be licensed under the MIT License.
 
-Thank you for contributing to Chat UI! 🎉
+Thank you for contributing to ChatKit! 🎉

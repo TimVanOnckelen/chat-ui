@@ -22,8 +22,8 @@ const svgDataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(logo)}
 
 export default create({
   base: 'light',
-  brandTitle: 'Chat UI',
-  brandUrl: 'https://timvanonckelen.github.io/chat-ui',
+  brandTitle: 'ChatKit',
+  brandUrl: 'https://timvanonckelen.github.io/chatkit-react',
   brandImage: svgDataUrl,
   brandTarget: '_self',
 });
