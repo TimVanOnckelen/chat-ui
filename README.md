@@ -1,12 +1,12 @@
 # Chat UI
 
-[![NPM Version](https://img.shields.io/npm/v/@thexerobe/chat-ui-react)](https://www.npmjs.com/package/@thexeroxbe/chat-ui-)react)
+[![NPM Version](https://img.shields.io/npm/v/@thexerobe/chat-ui-react)](https://www.npmjs.com/package/@thexeroxbe/chat-ui-react)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://timvanonckelen.github.io/chat-ui/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > ⚡ **Project Status**: This project is under active development. Stay tuned for regular updates. Some features may change or break in upcoming versions.
 
-A modern React component library for building sophisticated AI chat interfaces. Provides themeable components with built-in support for file handling, model selection, and AI processing states.
+A modern React component library for building sophisticated AI chat interfaces. Provides themeable components with built-in support for file handling, model selection, and AI processing states.s
 
 ## Requirements
 
