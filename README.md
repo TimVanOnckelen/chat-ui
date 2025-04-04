@@ -1,4 +1,4 @@
-# Chat UI
+# ChatKit React
 
 [![NPM Version](https://img.shields.io/npm/v/@thexerobe/chat-ui-react)](https://www.npmjs.com/package/chatkit-react)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://timvanonckelen.github.io/chat-ui/)
