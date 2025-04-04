@@ -1,29 +1,22 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, InputHTMLAttributes } from 'react';
 import { useTheme } from '../../theme/ThemeProvider';
 
-export interface FileSelectorProps {
+export interface FileSelectorProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'ref' | 'onChange'> {
   /** Callback when files are selected */
   onFilesSelected: (files: File[]) => void;
   buttonText?: string;
-  /** Optional list of accepted file types */
-  accept?: string;
-  /** Optional maximum file size in bytes */
-  maxSize?: number;
-  /** Optional maximum number of files */
-  maxFiles?: number;
-  /** Optional className for styling */
-  className?: string;
   /** Whether the selector is disabled */
   disabled?: boolean;
   icon?: React.ReactNode;
   iconPosition?: 'left' | 'right';
+  /** Optional maximum number of files */
+  maxFiles?: number;
+  /** Optional className for styling */
+  className?: string;
 }
 
 export const FileSelector: React.FC<FileSelectorProps> = ({
   onFilesSelected,
-  accept,
-  maxSize,
-  maxFiles = 1,
   className = '',
   disabled = false,
   buttonText = 'Attach File',
@@ -40,6 +33,8 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
     <path d="M4 8h8M8 4v8" />
   </svg></>),
   iconPosition = 'left',
+  maxFiles = 1,
+  ...inputProps
 }) => {
   const theme = useTheme();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -90,10 +85,10 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
       return;
     }
 
-    if (maxSize) {
-      const oversizedFiles = files.filter(file => file.size > maxSize);
+    if (inputProps.maxLength) {
+      const oversizedFiles = files.filter(file => file.size > inputProps.maxLength!);
       if (oversizedFiles.length > 0) {
-        setError(`File${oversizedFiles.length > 1 ? 's' : ''} exceed${oversizedFiles.length === 1 ? 's' : ''} size limit of ${formatFileSize(maxSize)}`);
+        setError(`File${oversizedFiles.length > 1 ? 's' : ''} exceed${oversizedFiles.length === 1 ? 's' : ''} size limit of ${formatFileSize(inputProps.maxLength)}`);
         return;
       }
     }
@@ -136,11 +131,11 @@ export const FileSelector: React.FC<FileSelectorProps> = ({
       <input
         ref={fileInputRef}
         type="file"
-        accept={accept}
         multiple={maxFiles > 1}
         onChange={handleFileChange}
         style={{ display: 'none' }}
         disabled={disabled}
+        {...inputProps}
       />
       {error && <div style={errorStyles}>{error}</div>}
     </div>

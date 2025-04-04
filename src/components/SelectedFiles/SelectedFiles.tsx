@@ -39,6 +39,8 @@ export const SelectedFiles: React.FC<SelectedFilesProps> = ({
     backgroundColor: `${theme.theme.colors.text}10`,
     borderRadius: theme.theme.borderRadius.sm,
     fontSize: theme.theme.typography.fontSize.small,
+    fontFamily: theme.theme.typography.fontFamily,
+    lineHeight: '1.5',
     color: theme.theme.colors.text,
   };
 

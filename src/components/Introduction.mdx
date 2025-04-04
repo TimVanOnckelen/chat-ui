@@ -4,169 +4,59 @@ import { Meta } from '@storybook/blocks';
 
 # Chat UI Component Library
 
-A modern React component library designed for building sophisticated AI chat interfaces. This library provides a comprehensive set of themeable components with built-in support for file handling, model selection, and AI processing states.
+Chat UI is a modern React component library designed to simplify the creation of AI chat interfaces. Built with TypeScript and React, it provides a comprehensive set of components to help you build engaging conversational experiences.
 
-## Quick Start
+> **🚧 Active Development**  
+> This project is currently in active development. While the core components are stable, we're continuously adding features and improvements. Feel free to contribute or provide feedback!
 
-Check out the [Chat UI Overview](?path=/docs/getting-started-chat-ui-overview--docs) to see all components working together in a complete chat interface.
 
-## Key Features
+> Requires React 19+
+> No other JS or CSS dependencies!
 
-- 🎨 **Advanced Theming System**
-  - Multiple built-in themes (Default, Apple-style, Microsoft Fluent)
-  - Fully customizable colors, spacing, typography, and more
-  - Consistent design tokens across components
-  - Dark/light mode support
+## Core Features
 
-- 💬 **Complete Chat Components**
-  - Message bubbles with user/AI states
-  - Auto-scrolling chat container
-  - Multi-line input with keyboard shortcuts
-  - Chat thread management
-  - Model selection with descriptions
-  - Reasoning toggle for AI explanations
+- 🎨 **Fully customizable themes with no css dependencies**
+- 💬 **Rich chat interactions**
+- 🔄 **Real-time processing indicators**
+- 📱 **Responsive design**
+- 🎯 **Context-aware components**
 
-- 📁 **File Handling**
-  - Drag and drop file uploads
-  - File type validation
-  - Size limits and warnings
-  - Preview and management
-  - Progress indicators
+## Available Components
 
-- ⚡ **Real-time Feedback**
-  - AI processing indicators
-  - Progress tracking
-  - Error states
-  - Loading animations
+### Chat Interface
+- **Chat Container**: The main container component that orchestrates the chat interface layout and interactions.
+- **Chat Bubble**: Stylish message bubbles for displaying user and AI messages with support for various content types.
+- **Chat Input**: Feature-rich input component with support for text, commands, and file attachments.
 
-- 🔧 **Developer Experience**
-  - TypeScript support
-  - Comprehensive documentation
-  - Modular architecture
-  - Easy customization
-  - Minimal dependencies
+### AI Interaction
+- **AI Processing Indicator**: Visual feedback component showing when the AI is processing or generating responses.
+- **Model Selector**: Component for selecting and configuring different AI models.
+- **Reasoning Toggle**: Toggle component for displaying AI reasoning and thought processes.
 
-## Component Categories
-
-### Core Chat Components
-
-- **ChatContainer**: The main message container with auto-scrolling
-```tsx
-<ChatContainer messages={messages} maxHeight="600px" />
-```
-
-- **ChatBubble**: Individual message bubbles for user and AI responses
-```tsx
-<ChatBubble 
-  message="Hello!"
-  isUser={true}
-  timestamp="12:30 PM"
-/>
-```
-
-- **ChatInput**: Text input with file attachment support
-```tsx
-<ChatInput
-  onSubmit={handleSubmit}
-  afterInput={<FileSelector />}
-/>
-```
-
-### Control Components
-
-- **ChatSelector**: Switch between different chat threads
-- **ModelSelector**: Choose between different AI models
-- **ReasoningToggle**: Toggle AI reasoning/explanation mode
+### Navigation & Context
+- **Chat Selector**: Navigation component for switching between different chat conversations.
+- **Chat Suggestions**: Dynamic suggestion chips to help users with common actions or responses.
+- **Context List**: Display and manage contextual information used in the chat.
 
 ### File Management
+- **File Selector**: File management component for uploading and managing chat attachments.
+- **Avatar Holder**: Component for displaying user and AI avatars consistently.
+- **Selected Files**: Display and manage currently selected files in the chat.
 
-- **FileSelector**: File upload with validation
-- **SelectedFiles**: Display and manage uploaded files
+## Getting Started
 
-### Feedback Components
+To start using Chat UI in your project:
 
-- **AIProcessingIndicator**: Show AI processing state with progress
-
-## Theming
-
-The library uses a powerful theme provider that makes it easy to customize every aspect:
-
-```tsx
-<ThemeProvider initialTheme="default"> // or "fruit", "skylight", etc.
-  <ChatContainer>
-    {/* Your chat content */}
-  </ChatContainer>
-</ThemeProvider>
+```bash
+npm install @chat-ui/react
 ```
 
-### Available Themes
+Check out our component documentation in the sidebar to see detailed usage examples and API references for each component.
 
-- **Default**: Clean, modern design
-- **Fruit**: Apple-inspired messaging interface
-- **Skylight**: Microsoft Fluent Design System
-- **Forest**: Nature-inspired green theme
-- **Twilight**: Elegant purple theme
+## Customization
 
-### Custom Themes
-
-Create your own theme by extending the base theme:
-
-```tsx
-const customTheme = {
-  colors: {
-    primary: '#2E5CD3',
-    background: '#FFFFFF',
-    userBubbleBackground: '#2E5CD3',
-    // ... other color tokens
-  },
-  spacing: {
-    xs: '4px',
-    sm: '8px',
-    // ... other spacing tokens
-  }
-  // ... other theme tokens
-};
-
-<ThemeProvider initialTheme={customTheme}>
-  {/* Your app */}
-</ThemeProvider>
-```
-
-## Architecture
-
-The library is built with a modular architecture where each component:
-- Is fully self-contained
-- Has consistent prop interfaces
-- Uses shared theme tokens
-- Supports composition
-- Includes comprehensive tests
-
-## Best Practices
-
-1. **Theme Usage**
-   - Always wrap your app with ThemeProvider
-   - Use theme tokens instead of hard-coded values
-   - Consider light/dark mode support
-
-2. **Component Composition**
-   - Use ChatContainer as the main wrapper
-   - Combine with ChatInput for a complete interface
-   - Add file handling as needed
-
-3. **Accessibility**
-   - All components support keyboard navigation
-   - ARIA labels are included
-   - Color contrast meets WCAG guidelines
-
-4. **Performance**
-   - Messages are virtualized for large chats
-   - Optimized re-renders
-   - Lazy loading for file previews
+All components support theme customization through our theme provider. You can modify colors, spacing, typography, and other design tokens to match your application's design system.
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](https://github.com/TimVanOnckelen/chat-ui/blob/main/CONTRIBUTING.md) for more details.
-
-## License
-
-MIT © [Your Name]
+We welcome contributions! Whether it's bug fixes, feature additions, or documentation improvements, please check our [GitHub repository](https://timvanonckelen.github.io/chat-ui) for contribution guidelines.

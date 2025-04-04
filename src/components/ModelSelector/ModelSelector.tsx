@@ -77,7 +77,6 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
     backgroundColor: theme.theme.colors.background,
     border: `1px solid ${theme.theme.colors.text}20`,
     borderRadius: theme.theme.borderRadius.md,
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
     minWidth: '200px',
     maxHeight: '300px',
     overflowY: 'auto',

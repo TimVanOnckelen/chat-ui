@@ -38,6 +38,7 @@ const ChatOverviewContent = () => {
   const [selectedFiles, setSelectedFiles] = useState<SelectedFile[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [showChatSelector, setShowChatSelector] = useState(false);
 
   // Sample data
   const chats = [
@@ -160,7 +161,7 @@ const ChatOverviewContent = () => {
   return (
     <div style={{ 
       width: '800px',
-      height: '600px',
+      height: '800px',
       display: 'flex',
       flexDirection: 'column',
       gap: theme.spacing.md,
@@ -169,15 +170,17 @@ const ChatOverviewContent = () => {
       borderRadius: theme.borderRadius.lg,
       overflow: 'hidden',
       boxSizing: 'border-box',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+      border: `1px solid ${theme.colors.text}20`,
     }}>
       <div style={{ 
         display: 'flex', 
         gap: theme.spacing.md, 
         alignItems: 'center',
         flexShrink: 0,
-        overflow: 'auto',
-        paddingBottom: theme.spacing.xs
+        overflow: 'visible',
+        paddingBottom: theme.spacing.xs,
+        position: 'relative',
+        zIndex: 1
       }}>
         <ChatSelector
           chats={chats}
@@ -194,12 +197,38 @@ const ChatOverviewContent = () => {
             setSelectedChat(newChat.id);
             setMessages([]);
           }}
+          isOpen={showChatSelector}
+          showToggleButton={false}
+          onToggle={setShowChatSelector}
         />
-        <ModelSelector
-          models={models}
-          selectedModel={selectedModel}
-          onModelChange={setSelectedModel}
+        <ReasoningToggle
+          enabled={showChatSelector}
+          onToggle={setShowChatSelector}
+          text='New Chat'
+          icon={(
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          )} 
         />
+
+        <div style={{ minWidth: '200px' }}>
+          <ModelSelector
+            models={models}
+            selectedModel={selectedModel}
+            onModelChange={setSelectedModel}
+          />
+        </div>
+
         <ReasoningToggle
           enabled={reasoningEnabled}
           onToggle={setReasoningEnabled}
@@ -280,7 +309,7 @@ const ChatOverviewContent = () => {
                 case '2':
                   setReasoningEnabled(!reasoningEnabled);
                   break;
-                case '3':
+                case '3': {
                   const newChat = {
                     id: (chats.length + 1).toString(),
                     title: 'New Chat',
@@ -290,6 +319,9 @@ const ChatOverviewContent = () => {
                   chats.unshift(newChat);
                   setSelectedChat(newChat.id);
                   setMessages([]);
+                  break;
+                }
+                default:
                   break;
               }
             }}
@@ -316,7 +348,6 @@ const ChatOverviewContent = () => {
               <FileSelector
                 onFilesSelected={handleFileSelect}
                 accept="image/*,.pdf,.doc,.docx"
-                maxSize={5 * 1024 * 1024}
                 disabled={isProcessing}
               />
               {isProcessing && (

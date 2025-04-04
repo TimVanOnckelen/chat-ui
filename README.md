@@ -1,54 +1,55 @@
 # Chat UI Component Library
 
-> ⚡ **Project Status**: This project is under very active development! We're constantly adding new features, improving existing components, and refining the API. Stay tuned for regular updates.
+<p align="center">
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="white"/>
 
-A modern React component library designed for building sophisticated AI chat interfaces. This library provides a comprehensive set of themeable components with built-in support for file handling, model selection, and AI processing states.
+  <path d="M30 40 h200 a10 10 0 0 1 10 10 v80 a10 10 0 0 1 -10 10 h-90 l-25 20 v-20 h-85 a10 10 0 0 1 -10 -10 v-80 a10 10 0 0 1 10 -10 z" fill="#3B82F6"/>
 
+  <text x="50" y="80" font-family="Arial, sans-serif" font-size="28" fill="white" font-weight="bold">ChatUI</text>
+
+  <g transform="translate(180, 95)">
+    <rect x="-15" y="-15" width="30" height="30" rx="6" fill="#10B981"/>
+    <circle cx="-7" cy="-5" r="3" fill="white"/>
+    <circle cx="7" cy="-5" r="3" fill="white"/>
+    <rect x="-5" y="5" width="10" height="3" rx="1.5" fill="white"/>
+    <line x1="0" y1="-20" x2="0" y2="-15" stroke="#10B981" stroke-width="2"/>
+    <circle cx="0" cy="-22" r="2" fill="#10B981"/>
+  </g>
+</svg>
+
+</p>
+
+[![NPM Version](https://img.shields.io/npm/v/@timvanonckelen/chat-ui)](https://www.npmjs.com/package/@timvanonckelen/chat-ui)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://timvanonckelen.github.io/chat-ui/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> ⚡ **Project Status**: This project is under active development. Stay tuned for regular updates. Some features may change or break in upcoming versions.
+
+A modern React component library for building sophisticated AI chat interfaces. Provides themeable components with built-in support for file handling, model selection, and AI processing states.
+
+## Requirements
+
+- React 19 or higher
+- Framework agnostic - can be used with any CSS framework through class injection
 
 ## Key Features
 
-- 🎨 **Advanced Theming System**
-  - Multiple built-in themes (Default, Apple-style, Microsoft Fluent)
-  - Fully customizable colors, spacing, typography
-  - Dark/light mode support
-  - Design token consistency
-
-- 💬 **Complete Chat Components**
-  - Auto-scrolling message container
-  - User/AI message bubbles
-  - Multi-line input with keyboard shortcuts
-  - Thread management
-  - Model selection
-  - Reasoning toggle
-
-- 📁 **File Handling**
-  - Drag and drop uploads
-  - Type validation
-  - Size limits
-  - Preview management
-  - Progress tracking
-
-- ⚡ **Real-time Feedback**
-  - AI processing indicators
-  - Progress tracking
-  - Error states
-  - Loading animations
+- 🎨 **Advanced Theming System** - Multiple built-in themes with full customization
+- 💬 **Complete Chat Components** - Messages, inputs, threads, and model selection
+- 📁 **File Handling** - Drag & drop uploads with validation
+- ⚡ **Real-time Feedback** - Processing indicators and states
+- 🔄 **Framework Agnostic** - No CSS dependencies, works with any styling solution
 
 ## Quick Start
 
-1. Install the package:
 ```bash
-npm install
+npm install @timvanonckelen/chat-ui
 ```
 
-2. Start Storybook to explore components:
-```bash
-npm run storybook
-```
-
-3. Basic usage:
+Basic usage:
 ```tsx
-import { ThemeProvider, ChatContainer, ChatInput } from './components';
+import { ThemeProvider, ChatContainer, ChatInput } from '@timvanonckelen/chat-ui';
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -70,148 +71,14 @@ function App() {
 }
 ```
 
-## Available Components
+## Documentation
 
-### Core Chat Interface
-- `ChatContainer`: Main message container with auto-scroll
-- `ChatBubble`: Message bubbles for user and AI responses
-- `ChatInput`: Text input with file attachment support
-- `ChatSelector`: Switch between chat threads
-
-### Controls
-- `ModelSelector`: Choose between different AI models
-- `ReasoningToggle`: Toggle AI reasoning display
-- `FileSelector`: File upload with validation
-- `SelectedFiles`: Manage uploaded files
-
-### Feedback
-- `AIProcessingIndicator`: Show AI processing state with progress
-
-## Theming
-
-### Complete Theme Configuration
-
-Create a custom theme by configuring all available tokens:
-
-```tsx
-const customTheme = {
-  colors: {
-    primary: '#007AFF',      // Primary accent color
-    secondary: '#5856D6',    // Secondary accent color
-    background: '#FFFFFF',   // Main background color
-    text: '#000000',        // Main text color
-    userBubbleBackground: '#007AFF',   // User message bubble background
-    assistantBubbleBackground: '#E9ECEF', // AI message bubble background
-    userBubbleText: '#FFFFFF',    // User message text color
-    assistantBubbleText: '#000000' // AI message text color
-  },
-  spacing: {
-    xs: '4px',    // Extra small spacing
-    sm: '8px',    // Small spacing
-    md: '16px',   // Medium spacing
-    lg: '24px',   // Large spacing
-    xl: '32px'    // Extra large spacing
-  },
-  borderRadius: {
-    sm: '4px',    // Small border radius
-    md: '8px',    // Medium border radius
-    lg: '16px'    // Large border radius
-  },
-  typography: {
-    fontSize: {
-      small: '12px',    // Small text size
-      medium: '14px',   // Medium text size
-      large: '16px'     // Large text size
-    },
-    fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-  }
-};
-
-<ThemeProvider initialTheme={customTheme}>
-  {/* Your app */}
-</ThemeProvider>
-```
-
-### Built-in Themes
-
-The library includes several pre-configured themes:
-
-1. **Default Theme**: Clean, modern interface
-   - Balanced spacing and neutral colors
-   - Blue accent colors
-   - System font stack
-
-2. **Fruit Theme**: Apple-inspired design
-   - iOS-style rounded corners
-   - Green and blue accent colors
-   - SF Pro font family
-   - Elevated contrast
-
-3. **Skylight Theme**: Microsoft Fluent Design
-   - Microsoft blue color scheme
-   - Subtle rounded corners
-   - Segoe UI font family
-   - High legibility
-
-4. **Forest Theme**: Nature-inspired
-   - Forest green primary colors
-   - Earthy tones
-   - Clean typography
-   - Balanced contrast
-
-5. **Twilight Theme**: Elegant purple
-   - Soft purple accents
-   - Light backgrounds
-   - Modern typography
-   - Subtle shadows
-
-### Theme Best Practices
-
-1. **Color Usage**
-   - Use theme colors for consistency
-   - Maintain good contrast ratios
-   - Consider light/dark modes
-   - Use opacity modifiers for variations
-
-2. **Spacing**
-   - Follow spacing scale for consistency
-   - Use appropriate tokens for different contexts
-   - Maintain rhythm with consistent spacing
-
-3. **Typography**
-   - Stick to the defined scale
-   - Use appropriate sizes for hierarchy
-   - Consider responsive adjustments
-
-4. **Responsive Design**
-   - Theme tokens work across screen sizes
-   - Font sizes scale appropriately
-   - Spacing adapts to viewport
-
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Run Storybook
-npm run storybook
-
-# Run tests
-npm test
-
-# Build package
-npm run build
-```
+Visit our [Storybook](https://timvanonckelen.github.io/chat-ui/) for detailed documentation, component examples, and theme customization.
 
 ## Contributing
 
-1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT - Tim Van Onckelen
+[MIT](LICENSE) © Tim Van Onckelen

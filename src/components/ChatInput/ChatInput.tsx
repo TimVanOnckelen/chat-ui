@@ -1,21 +1,13 @@
-import React from 'react';
+import React, { TextareaHTMLAttributes } from 'react';
 import { useTheme } from '../../theme/ThemeProvider';
 
-export interface ChatInputProps {
+export interface ChatInputProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'onSubmit'> {
   /** Callback when message is submitted */
   onSubmit: (message: string) => void;
-  /** Optional placeholder text */
-  placeholder?: string;
-  /** Optional className for styling */
-  className?: string;
   /** Optional extra content to show before the input */
   beforeInput?: React.ReactNode;
   /** Optional extra content to show after the input */
   afterInput?: React.ReactNode;
-  /** Whether the input is disabled */
-  disabled?: boolean;
-  /** Whether to auto focus the input */
-  autoFocus?: boolean;
   /** Whether to clear the input after submit */
   clearOnSubmit?: boolean;
   sendContent?: React.ReactNode;
@@ -24,12 +16,10 @@ export interface ChatInputProps {
 
 export const ChatInput: React.FC<ChatInputProps> = ({
   onSubmit,
-  placeholder = 'Type a message...',
   className = '',
   beforeInput,
   afterInput,
-  disabled = false,
-  autoFocus = false,
+  disabled,
   clearOnSubmit = true,
   progressIndicator,
   sendContent = (
@@ -46,10 +36,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       <line x1="22" y1="2" x2="11" y2="13" />
       <polygon points="22 2 15 22 11 13 2 9 22 2" />
     </svg>
-  )
+  ),
+  ...textareaProps
 }) => {
   const theme = useTheme();
-  const [message, setMessage] = React.useState('');
+  const [message, setMessage] = React.useState(textareaProps.value?.toString() || textareaProps.defaultValue?.toString() || '');
   const [isFocused, setIsFocused] = React.useState(false);
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
@@ -115,11 +106,27 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     marginLeft: theme.theme.spacing.sm,
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
     }
+    textareaProps.onKeyDown?.(e);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
+    textareaProps.onChange?.(e);
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    setIsFocused(true);
+    textareaProps.onFocus?.(e);
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    setIsFocused(false);
+    textareaProps.onBlur?.(e);
   };
 
   const handleSubmit = () => {
@@ -150,15 +157,14 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     <div className={`chat-input ${className}`} style={containerStyles}>
       <textarea
         ref={textareaRef}
+        {...textareaProps}
         value={message}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={handleChange}
         onKeyDown={handleKeyDown}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        placeholder={placeholder}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         disabled={disabled}
-        autoFocus={autoFocus}
-        style={textareaStyles}
+        style={{ ...textareaStyles, ...textareaProps.style }}
       />
       <div style={bottomRowStyles}>
         <div style={leftSectionStyles}>

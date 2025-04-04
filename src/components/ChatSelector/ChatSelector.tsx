@@ -22,7 +22,78 @@ export interface ChatSelectorProps {
   className?: string;
   /** Whether the selector is disabled */
   disabled?: boolean;
+  /** Position of the sidebar: 'left' or 'right' */
+  position?: 'left' | 'right';
+  /** Whether the sidebar is initially open (uncontrolled mode) */
+  defaultOpen?: boolean;
+  /** Control whether the sidebar is open (controlled mode) */
+  isOpen?: boolean;
+  /** Callback when sidebar is toggled */
+  onToggle?: (open: boolean) => void;
+  /** Custom content for the toggle button */
+  chatButtonContent?: React.ReactNode;
+  /** Custom content for the new chat button */
+  newChatButtonContent?: React.ReactNode;
+  /** Title displayed at the top of the sidebar */
+  title?: string;
+  /** Whether to automatically close sidebar after selection */
+  autoCloseOnSelect?: boolean;
+  /** Whether to show the built-in toggle button */
+  showToggleButton?: boolean;
+  /** Style overrides for the toggle button */
+  toggleButtonStyle?: React.CSSProperties;
+
+  showCloseButton?: boolean;
+  closeButtonContent?: React.ReactNode;
 }
+
+/**
+ * Creates a toggle button that can be placed anywhere to control the sidebar
+ */
+export const ChatSelectorToggle: React.FC<{
+  isOpen: boolean;
+  onToggle: () => void;
+  disabled?: boolean;
+  position?: 'left' | 'right';
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}> = ({ 
+  isOpen, 
+  onToggle, 
+  disabled = false, 
+  position = 'left',
+  style = {},
+  children
+}) => {
+  const theme = useTheme();
+  
+  const toggleButtonStyles: React.CSSProperties = {
+    backgroundColor: theme.theme.colors.background,
+    border: `1px solid ${theme.theme.colors.text}20`,
+    borderRadius: theme.theme.borderRadius.md,
+    color: theme.theme.colors.text,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '40px',
+    height: '40px',
+    opacity: disabled ? 0.6 : 1,
+    ...style
+  };
+  
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      style={toggleButtonStyles}
+      disabled={disabled}
+      aria-label={isOpen ? "Close chat sidebar" : "Open chat sidebar"}
+    >
+      {children || (isOpen ? (position === 'left' ? '◄' : '►') : (position === 'left' ? '►' : '◄'))}
+    </button>
+  );
+};
 
 export const ChatSelector: React.FC<ChatSelectorProps> = ({
   chats,
@@ -31,47 +102,65 @@ export const ChatSelector: React.FC<ChatSelectorProps> = ({
   onNewChat,
   className = '',
   disabled = false,
+  position = 'left',
+  defaultOpen = false,
+  isOpen: controlledIsOpen,
+  onToggle,
+  newChatButtonContent = 'New Chat',
+  chatButtonContent = (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="22" y1="2" x2="11" y2="13" />
+      <polygon points="22 2 15 22 11 13 2 9 22 2" />
+    </svg>
+  ),
+  title = 'Chats',
+  autoCloseOnSelect = true,
+  showToggleButton = true,
+  toggleButtonStyle = {},
+  showCloseButton = true,
+  closeButtonContent
 }) => {
   const theme = useTheme();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const currentChat = chats.find(chat => chat.id === selectedChat) || chats[0];
+  const [uncontrolledIsOpen, setUncontrolledIsOpen] = useState(defaultOpen);
+  
+  // Determine if we're in controlled or uncontrolled mode
+  const isControlled = controlledIsOpen !== undefined;
+  const isOpen = isControlled ? controlledIsOpen : uncontrolledIsOpen;
 
   const containerStyles: React.CSSProperties = {
-    position: 'relative',
-    display: 'inline-block',
-  };
-
-  const buttonStyles: React.CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.theme.spacing.sm,
-    padding: `${theme.theme.spacing.sm} ${theme.theme.spacing.md}`,
-    backgroundColor: theme.theme.colors.background,
-    border: `1px solid ${theme.theme.colors.text}20`,
-    borderRadius: theme.theme.borderRadius.md,
-    color: theme.theme.colors.text,
-    cursor: disabled ? 'not-allowed' : 'pointer',
-    fontSize: theme.theme.typography.fontSize.small,
-    opacity: disabled ? 0.6 : 1,
-  };
-
-  const dropdownStyles: React.CSSProperties = {
-    position: 'absolute',
-    top: '100%',
-    left: 0,
-    marginTop: theme.theme.spacing.xs,
-    backgroundColor: theme.theme.colors.background,
-    border: `1px solid ${theme.theme.colors.text}20`,
-    borderRadius: theme.theme.borderRadius.md,
-    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-    minWidth: '250px',
-    maxHeight: '400px',
-    overflowY: 'auto',
+    position: 'fixed',
+    top: 0,
+    [position]: 0,
     zIndex: 1000,
+    bottom: '10px',
+    transition: 'transform 0.3s ease',
+    transform: isOpen ? 'translateX(0)' : `translateX(${position === 'left' ? '-100%' : '100%'})`,
+    display: 'flex',
+    fontFamily: theme.theme.typography.fontFamily,
+    fontSize: theme.theme.typography.fontSize.medium,
+  };
+
+  const sidebarStyles: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: theme.theme.colors.background,
+    border: `1px solid ${theme.theme.colors.text}20`,
+    borderRadius: position === 'left' ? '0 8px 8px 0' : '8px 0 0 8px',
+    width: '300px',
+    overflowY: 'auto',
   };
 
   const chatItemStyles: React.CSSProperties = {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     padding: theme.theme.spacing.md,
@@ -111,35 +200,87 @@ export const ChatSelector: React.FC<ChatSelectorProps> = ({
     e.currentTarget.style.backgroundColor = 'transparent';
   };
 
+  const handleToggle = () => {
+    if (!disabled) {
+      if (isControlled) {
+        // In controlled mode, call the onToggle callback
+        onToggle?.(!isOpen);
+      } else {
+        // In uncontrolled mode, update internal state
+        setUncontrolledIsOpen(!isOpen);
+      }
+    }
+  };
+
   const handleSelect = (chatId: string) => {
     onChatSelect(chatId);
-    setIsOpen(false);
+    if (autoCloseOnSelect) {
+      // Handle closing based on controlled/uncontrolled state
+      if (isControlled) {
+        onToggle?.(false);
+      } else {
+        setUncontrolledIsOpen(false);
+      }
+    }
   };
 
   return (
-    <div className={`chat-selector ${className}`} style={containerStyles}>
-      <button
-        type="button"
-        onClick={() => !disabled && setIsOpen(!isOpen)}
-        style={buttonStyles}
-        disabled={disabled}
-      >
-        {currentChat?.title || 'Select Chat'}
-        <span style={{ marginLeft: 'auto' }}>▼</span>
-      </button>
-      {isOpen && !disabled && (
-        <div style={dropdownStyles}>
-          {onNewChat && (
-            <button 
-              onClick={onNewChat} 
-              style={newChatButtonStyles}
-              onMouseEnter={handleNewChatHover}
-              onMouseLeave={handleNewChatLeave}
-            >
-              <span style={{ fontSize: '1.2em' }}>+</span>
-              New Chat
-            </button>
-          )}
+    <div className={`chat-selector-sidebar ${className}`} style={containerStyles}>
+      {showToggleButton && (
+        <ChatSelectorToggle
+          isOpen={isOpen}
+          onToggle={handleToggle}
+          disabled={disabled}
+          position={position}
+          style={{
+            position: 'absolute',
+            top: '20px',
+            [position === 'left' ? 'right' : 'left']: '-40px',
+            borderRadius: position === 'left' ? '0 4px 4px 0' : '4px 0 0 4px',
+            ...toggleButtonStyle
+          }}
+        >
+          {chatButtonContent}
+        </ChatSelectorToggle>
+      )}
+      
+      {isOpen && (
+        <div style={sidebarStyles}>
+        <div style={{ 
+          padding: theme.theme.spacing.md,
+          borderBottom: `1px solid ${theme.theme.colors.text}20`,
+          fontWeight: 'bold',
+        }}>
+          {title}
+        </div>
+        {showCloseButton && (
+          closeButtonContent ? closeButtonContent : (<button 
+            onClick={handleToggle}
+            style={{
+              position: 'absolute',
+              top: theme.theme.spacing.sm,
+              right: theme.theme.spacing.sm,
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: theme.theme.colors.text,
+              cursor: 'pointer',
+            }}>Close</button>)
+)}
+        
+        {onNewChat && (
+          <button 
+            onClick={onNewChat} 
+            style={newChatButtonStyles}
+            onMouseEnter={handleNewChatHover}
+            onMouseLeave={handleNewChatLeave}
+          >
+            {newChatButtonContent}
+          </button>
+        )}
+        
+
+        
+        <div style={{ overflow: 'auto', flexGrow: 1 }}>
           {chats.map((chat) => (
             <div
               key={chat.id}
@@ -201,7 +342,9 @@ export const ChatSelector: React.FC<ChatSelectorProps> = ({
             </div>
           ))}
         </div>
+      </div>
       )}
+      
     </div>
   );
 };

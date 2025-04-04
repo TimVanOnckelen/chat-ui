@@ -36,6 +36,8 @@ export const AvatarHolder: React.FC<AvatarHolderProps> = ({
     backgroundColor: backgroundColor || theme.theme.colors.background,
     color: textColor || theme.theme.colors.text,
     fontSize: Math.floor(size * 0.4),
+    fontFamily: theme.theme.typography.fontFamily,
+    lineHeight: `${size}px`,
     fontWeight: 500,
     overflow: 'hidden',
     flexShrink: 0,

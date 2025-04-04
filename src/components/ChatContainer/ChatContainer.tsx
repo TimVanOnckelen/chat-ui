@@ -50,9 +50,12 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
     padding: theme.spacing.md,
     backgroundColor: theme.colors.background,
     borderRadius: theme.borderRadius.md,
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
     minHeight: '100%',
     position: 'relative',
+    scrollbarColor: `${theme.colors.text}20 ${theme.colors.background}`,
+    scrollbarWidth: 'thin',
+    fontFamily: theme.typography.fontFamily,
+    fontSize: theme.typography.fontSize.medium
   };
 
   const emptyStateStyles: React.CSSProperties = messages.length === 0 ? {
