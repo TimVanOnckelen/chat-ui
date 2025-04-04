@@ -1,7 +1,7 @@
 {
   "name": "chatkit-react",
   "private": false,
-  "version": "0.0.0",
+  "version": "0.0.0-alpha",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -21,7 +21,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build:types": "tsc -p tsconfig.build.json --emitDeclarationOnly",
+    "build": "vite build && npm run build:types",
     "prepublishOnly": "npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
