@@ -1,5 +1,5 @@
 {
-  "name": "chat-ui-react",
+  "name": "chatkit-react",
   "private": false,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +7,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
-  "description": "Chat UI for React",
+  "description": "Chatkit for React",
   "author": "Tim Van Onckelen",
   "files": [
     "dist"

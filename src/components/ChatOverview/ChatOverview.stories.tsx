@@ -18,7 +18,7 @@ const ChatOverviewContent = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
-      message: 'Hello! Welcome to the Chat UI demo. I am an AI assistant ready to help you.',
+      message: 'Hello! Welcome to the ChatKit demo. I am an AI assistant ready to help you.',
       isUser: false,
       timestamp: '10:00 AM',
       extraContent: <span style={{ 
@@ -44,8 +44,8 @@ const ChatOverviewContent = () => {
   const chats = [
     {
       id: '1',
-      title: 'Chat UI Demo',
-      lastMessage: 'Welcome to the Chat UI demo!',
+      title: 'ChatKit Demo',
+      lastMessage: 'Welcome to the ChatKit demo!',
       timestamp: 'Just now'
     },
     {
@@ -371,14 +371,14 @@ const ChatOverview = () => (
 
 
 const meta = {
-  title: 'Getting Started/Chat UI Overview',
+  title: 'Getting Started/ChatKit Overview',
   component: ChatOverview,
   parameters: {
     layout: 'centered',
     docs: {
       description: {
         component: `
-# Chat UI Component Integration
+# ChatKit Component Integration
 
 This story demonstrates a fully functional chat interface that combines all core components into a cohesive experience.
 
